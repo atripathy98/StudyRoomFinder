@@ -1,4 +1,12 @@
-# StudyRoomFinder
+### Study Room Finder
+# Team
+* Elisa Franssen
+* Xinyue Yan
+* Barry Chau
+* Honghao Li
+* Animesh Tripathy
+
+# Overview
 This application allows students to identify and register study room reservations across
 campus. By logging in with their RCS ID, students will preserve their identities and have a built-in method
 of authenticating their reservation. They will have 3 options: to view which rooms are currently available,
