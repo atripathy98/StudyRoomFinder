@@ -1,6 +1,5 @@
 # Study Room Finder
 ### Team
-* Elisa Franssen
 * Xinyue Yan
 * Barry Chau
 * Honghao Li
