@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <head>
+        <title>
+            RPI Room Finder
+        </title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+        <link rel="stylesheet" href="main.css">
+        <meta charset="utf-8">
+    </head>
+
+    <body id = "main">
+        <!-- web nav bar -->
+        <div class="nav">
+            <a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a>
+        </div>
+
+        <div class="ui grid custom-grid">
+            <div class = "eight wide column">
+                <h2 class = "ui blue header">Booking Your Library Rooms</h2>
+                <div class = "ui celled list">
+                    <div class="item">
+                        Log in with your RCS id and password to book library rooms.
+                        <div class="ui list">
+                            <div class ="item">
+                                Folsom Library group study rooms
+                            </div>
+                            <div>
+                                Folsom Library training and group study rooms
+                            </div>
+                            <div>
+                                Library Presentation room
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "item">
+                        Confirmation of your booking will be sent to your rpi email address.
+                    </div>
+                </div>
+            </div>
+            <div class = "two wide column"></div>
+            <div class = "five wide column ">
+                <form class="ui form">
+                    <div class = "field">
+                        <label>RCS ID</label>
+                        <input type="text" name="rcs-id" placeholder="RCS ID">
+                    </div>
+                    <div class = "field">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Password">
+                    </div>
+                    <br>
+                    <a href = "select.html" class="ui button" type = "submit" >Submit</a>
+                </form>
+            </div>
+            <div class = "one wide column"></div>
+        </div>
+        <!--using jQuery-->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script>
+        <script src="main.js"></script>
+    </body>
+
+</html>

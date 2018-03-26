@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+    <head>
+        <title>
+            RPI Room Finder
+        </title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+        <link rel="stylesheet" href="main.css">
+        <meta charset="utf-8">
+    </head>
+
+    <body id = "main">
+        <!-- web nav bar -->
+        <div class="nav">
+            <a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a>
+            <div class = "user">
+                <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp; <a href = "index.html">Log out</a></p>
+            </div>
+        </div>
+
+        <div class="ui grid main-page">
+            <h3>Current Reservations</h3>
+            <table class = "ui definition table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Room</th>
+                        <th>Start</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>401</td>
+                        <td>2pm, Feb 25th, 2018</td>
+                        <td>2 hour </td>
+                        <td>Not completed</td>
+                        <td><a href="#">Change</a>&nbsp;&nbsp;&nbsp;<a href="#">Cancel</a></td>
+                    </tr>
+                    <!-- using angualar etc. later for more information -->
+                </tbody>
+            </table>
+            <h3>Past Reservations</h3>
+            <table class = "ui definition table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Room</th>
+                        <th>Start</th>
+                        <th>Duration</th>
+                        <th></th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>401</td>
+                        <td>2pm, Feb 25th, 2018</td>
+                        <td>2 hour </td>
+                        <td></td>
+                        <td>Cancelled</td>
+                    </tr>
+                    <!-- using angualar etc. later for more information -->
+                </tbody>
+            </table>
+        </div>
+
+        <!--using jQuery-->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script>
+        <script src="main.js"></script>
+    </body>
+
+</html>

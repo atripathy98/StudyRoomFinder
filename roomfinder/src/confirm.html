@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+    <head>
+        <title>
+            RPI Room Finder
+        </title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+        <link rel="stylesheet" href="main.css">
+        <meta charset="utf-8">
+    </head>
+
+    <body id = "main">
+        <!-- web nav bar -->
+        <div class="nav">
+            <a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a>
+            <div class = "user">
+                <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp;  <a href = "index.html">Log out</a></p>
+            </div>
+        </div>
+
+        <div class="ui grid main-page">
+            <div class = "sixteen wide column">
+                <div class = "ui steps">
+                    <div class = "completed step">
+                        <i class = "home icon"></i>
+                        <div class = "content">
+                            <div class = "title">
+                                Select Room
+                            </div>
+                            <div class = "description">
+                                Choose potential rooms in library
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "completed step">
+                        <i class = "calendar alternate outline icon"></i>
+                        <div class = "content">
+                            <div class = "title">
+                                Select Time Slot
+                            </div>
+                            <div class = "description">
+                                Choose a maximum 2-hour slot
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "active step">
+                        <i class = "info icon"></i>
+                        <div class = "content">
+                            <div class = "title">
+                                Confrim Time Slot
+                            </div>
+                            <div class = "description">
+                                Verify reservation information
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "step">
+                        <i class = "bullseye icon"></i>
+                        <div class = "content">
+                            <div class = "title">
+                                Success
+                            </div>
+                            <div class = "description">
+                                Receive Confirmation Email
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "fourteen wide column">
+                <a href = "timeslot.html" class="ui button" type = "submit" >Back</a>
+            </div>
+            <div class = "two wide column">
+                <a href = "success.html" class="ui button" type = "submit" >Next</a>
+            </div>
+        </div>
+        <!--using jQuery-->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script>
+        <script src="main.js"></script>
+    </body>
+
+</html>
