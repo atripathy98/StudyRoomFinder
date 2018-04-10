@@ -3,7 +3,8 @@
         <title>
             RPI Room Finder
         </title>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
         <link rel="stylesheet" href="main.css">
         <meta charset="utf-8">
     </head>
@@ -11,9 +12,10 @@
     <body id = "main">
         <!-- web nav bar -->
         <div class="nav">
-            <a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a>
+            <h3><a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a></h3>
             <div class = "user">
                 <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp; <a href = "index.html">Log out</a></p>
+                &nbsp; <a href="admin.html">Admin</a>
             </div>
         </div>
 
@@ -66,6 +68,23 @@
                     </div>
                 </div>
             </div>
+            <div class = "four wide column">
+                <form action="" class = "ui form">
+                    <div class = "field">
+                        <input type="text" placeholder="Enter Date">
+                    </div>
+                    <div class = "field">
+                        <input type="text" placeholder="Start Time">
+                    </div>
+                    <div class = "field">
+                        <input type="text" placeholder="End Time">
+                    </div>
+                    <!-- <button class = "ui button">Filter</button> -->
+                </form>
+            </div>
+            <div class = "ten wide column">
+            </div>
+            <div class = "two wide column"></div>
             <div class = "fourteen wide column">
                 <a href = "select.html" class="ui button" type = "submit" >Back</a>
             </div>
@@ -74,8 +93,9 @@
             </div>
         </div>
         <!--using jQuery-->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- <script src="semantic/semantic.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
         <script src="main.js"></script>
     </body>
 

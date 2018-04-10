@@ -3,37 +3,40 @@
         <title>
             RPI Room Finder
         </title>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
         <link rel="stylesheet" href="main.css">
         <meta charset="utf-8">
     </head>
 
-    <body id = "main">
+    <body id = "index_main">
         <!-- web nav bar -->
         <div class="nav">
-            <a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a>
+            <h3><a class = "ui grey inverted header" href = "index.html">RPI Room Finder</a><h3>
         </div>
 
         <div class="ui grid custom-grid">
             <div class = "eight wide column">
-                <h2 class = "ui blue header">Booking Your Library Rooms</h2>
-                <div class = "ui celled list">
-                    <div class="item">
-                        Log in with your RCS id and password to book library rooms.
-                        <div class="ui list">
-                            <div class ="item">
-                                Folsom Library group study rooms
-                            </div>
-                            <div>
-                                Folsom Library training and group study rooms
-                            </div>
-                            <div>
-                                Library Presentation room
+                <div class = "ui secondary segment instruction">
+                    <h1 class = "ui blue header">Booking Your Library Rooms</h1>
+                    <div class = "ui celled list">
+                        <div class="item">
+                            Log in with your RCS id and password to book library rooms.
+                            <div class="ui list">
+                                <div class ="item">
+                                    Folsom Library group study rooms
+                                </div>
+                                <div>
+                                    Folsom Library training and group study rooms
+                                </div>
+                                <div>
+                                    Library Presentation room
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class = "item">
-                        Confirmation of your booking will be sent to your rpi email address.
+                        <div class = "item">
+                            Confirmation of your booking will be sent to your rpi email address.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,14 +52,16 @@
                         <input type="password" name="password" placeholder="Password">
                     </div>
                     <br>
-                    <a href = "select.html" class="ui button" type = "submit" >Submit</a>
+                    <a href = "user.html" class="ui button" type = "submit" >Submit</a>
+                    <a href="admin.html" class ="ui button" type = "submit">Temp Admin</a>
                 </form>
             </div>
             <div class = "one wide column"></div>
         </div>
         <!--using jQuery-->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- <script src="semantic/semantic.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
         <script src="main.js"></script>
     </body>
 
