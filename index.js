@@ -29,17 +29,20 @@ app.use(session({
 
 /* FIREBASE ADMINS */
 // Firebase Admins SetUp (USING TEMPORARY PROJECT)
-var serviceAccount = require('./resources/serviceAccountKey.json');
+var serviceAccount = require('./resources/serviceAccountKeyBarry.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://itwstermproject.firebaseio.com",
+  databaseURL: "https://webscience2018.firebaseio.com/",
   // Rules Option
   databaseAuthVariableOverride: null
 });
+
 // Initialize Database
 var db = admin.database();
-var usersref = db.ref("/rpiroomfinder/users");
-var locationsref = db.ref("/rpiroomfinder/locations");
+var usersref = db.ref("/webscience2018/users");
+var locationsref = db.ref("/webscience2018/locations");
+var reservationref = db.ref("/webscience2018/reservations");
+
 
 /* APPLICATION ROUTES */
 app.get('/profile',function(req,res){
@@ -61,10 +64,53 @@ app.get('/profile',function(req,res){
 		res.render('profile.ejs',{name: req.session.name});
 	}
 });
+
 // Reserve a room
-//app.post('/reserve',function(req,res){
-// 	
-//});
+app.post('/reserve',function(req,res){
+ 	reservationref.once("value", function(data){
+		
+		req.session.timehr = "12";
+		req.session.timemin = "00";
+		req.session.date = "04/20/2018";
+		req.session.id = "00002";
+		req.session.locid = "002";
+		req.session.rcsid = "temporary-value";
+		req.session.roomid = "002";
+		req.session.status = "1";
+		
+		var datehead = req.session.date + req.session.timehr + req.session.timemin;
+		var reservation_table = data.val();
+		var reservationChild = reservationref.child("/"+ datehead);
+		
+		if(!(datehead in reservation_table)){
+			reservationChild.set({
+				
+				datetime:{ 
+					date: req.session.date,
+					time:{ 
+						hr:req.session.timehr, 
+						min:req.session.timemin
+					} 	
+				}, 
+				
+				id: req.session.id,
+				locid: req.session.locid,
+				rcsid: req.session.rcsid,
+				roomid: req.session.roomid,
+				status: req.session.status
+				
+			});
+			
+		}
+		else{
+			
+		}
+		
+	});
+	
+});
+
+
 // Get all locations
 app.get('/getLocations',function(req,res){
 	locationsref.once("value", function(data){
@@ -72,10 +118,15 @@ app.get('/getLocations',function(req,res){
 		res.json(locations_table);
 	});
 });
+
 // Get time slots
-/*app.get('/getTimeSlots',function(req,res){
-	
-});*/
+app.get('/getTimeSlots',function(req,res){
+	locationsref.once("value", function(data){
+		var reservation_table = data.val();
+		res.json(reservation_table);
+	});
+});
+
 // Gets profile of current user
 app.get('/getProfile',function(req,res){
 	res.json({success:true});
