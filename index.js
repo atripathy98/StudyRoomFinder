@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 var session = require('express-session');
 var CASAuthentication = require('cas-authentication');
 var admin = require('firebase-admin');
-
+var path = require('path')
 /* CREATE EXPRESS APP AND SERVER */
 var app = express();
 var server = http.createServer(app);
@@ -14,8 +14,8 @@ var server = http.createServer(app);
 /* MISC. */
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/static',express.static('public'));
-
+app.use(express.static('public'));
+app.use(bodyParser.json());
 
 /* EXPRESS SESSIONS */
 app.use(session({
@@ -44,7 +44,12 @@ var locationsref = db.ref("/webscience2018/locations");
 var reservationref = db.ref("/webscience2018/reservations");
 
 
-/* APPLICATION ROUTES */
+app.get('/', function(req, res) {
+    // render the homepage
+    res.sendFile(__dirname + '/public/index.html');
+});
+//
+// /* APPLICATION ROUTES */
 app.get('/profile',function(req,res){
 	// Initial profile creation (get name)
 	if(req.session.profilestatus == 0){
@@ -64,11 +69,11 @@ app.get('/profile',function(req,res){
 		res.render('profile.ejs',{name: req.session.name});
 	}
 });
-
+//
 // Reserve a room
 app.post('/reserve',function(req,res){
  	reservationref.once("value", function(data){
-		
+
 		req.session.timehr = "12";
 		req.session.timemin = "00";
 		req.session.date = "04/20/2018";
@@ -77,37 +82,37 @@ app.post('/reserve',function(req,res){
 		req.session.rcsid = "temporary-value";
 		req.session.roomid = "002";
 		req.session.status = "1";
-		
+
 		var datehead = req.session.date + req.session.timehr + req.session.timemin;
 		var reservation_table = data.val();
 		var reservationChild = reservationref.child("/"+ datehead);
-		
+
 		if(!(datehead in reservation_table)){
 			reservationChild.set({
-				
-				datetime:{ 
+
+				datetime:{
 					date: req.session.date,
-					time:{ 
-						hr:req.session.timehr, 
+					time:{
+						hr:req.session.timehr,
 						min:req.session.timemin
-					} 	
-				}, 
-				
+					}
+				},
+
 				id: req.session.id,
 				locid: req.session.locid,
 				rcsid: req.session.rcsid,
 				roomid: req.session.roomid,
 				status: req.session.status
-				
+
 			});
-			
+
 		}
 		else{
-			
+
 		}
-		
+
 	});
-	
+
 });
 
 
@@ -158,15 +163,15 @@ app.get('/authenticate', cas.bounce, function(req,res){
 			req.session.name = users_table[username]["name"];
 		}
 		res.redirect('/profile');
-	});	
+	});
 });
 // CAS Log Out
 app.get('/logout', cas.logout);
 
-/* LANDING ROUTE */
-app.get('/',function(req,res){
-	res.render('mainpage.ejs');
-});
+// /* LANDING ROUTE */
+// app.get('/',function(req,res){
+// 	res.render('mainpage.ejs');
+// });
 
 
 /* SERVER PORT */

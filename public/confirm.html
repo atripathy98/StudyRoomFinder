@@ -5,7 +5,7 @@
         </title>
         <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="/css/main.css">
         <meta charset="utf-8">
     </head>
 
@@ -20,10 +20,10 @@
         </div>
 
         <div class="ui grid main-page">
-            <div class = "fourteen wide column">
+            <div class = "sixteen wide column">
                 <div class = "ui steps">
-                    <div class = "active step">
-                        <i class="home icon"></i>
+                    <div class = "completed step">
+                        <i class = "home icon"></i>
                         <div class = "content">
                             <div class = "title">
                                 Select Room
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class = "step">
+                    <div class = "completed step">
                         <i class = "calendar alternate outline icon"></i>
                         <div class = "content">
                             <div class = "title">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class = "step">
+                    <div class = "active step">
                         <i class = "info icon"></i>
                         <div class = "content">
                             <div class = "title">
@@ -68,56 +68,20 @@
                     </div>
                 </div>
             </div>
-            <div class = "two wide column"></div>
-
-            <div class = "four wide column">
-                <form action="" class = "ui form">
-                    <div class = "field">
-                        <input type="text" placeholder="Location">
-                    </div>
-                    <div class = "field">
-                        <input type="text" placeholder="Room Number">
-                    </div>
-                    <div class = "field">
-                        <input type="text" placeholder="Enter Date">
-                    </div>
-                    <button class = "ui button">Filter</button>
-                </form>
+            <div class = "centered row">
+                <h3>Your reservation is : {{library 401 12:00 - 14:00 Apr 17 2018 }}</h3>
             </div>
-            <div class = "ten wide column">
-                <table class = "ui definition table">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>Room number</th>
-                            <th>Location</th>
-                            <th>Floor Plan</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>401</td>
-                            <td>Library</td>
-                            <td><a href="#">Floor Plan</a> </td>
-                            <td><a href="timeslot.html">Reserve</a></td>
-                        </tr>
-                        <!-- using angualar etc. later for more information -->
-                    </tbody>
-                </table>
+            <div class = "fourteen wide column">
+                <a href = "timeslot.html" class="ui button" type = "submit" >Back</a>
             </div>
-            <div class = "two wide column"></div>
-            <div class = "fourteen wide column"></div>
             <div class = "two wide column">
-                <a href = "timeslot.html" class="ui button" type = "submit" >Next</a>
+                <a href = "success.html" class="ui button" type = "submit" >Confirm</a>
             </div>
         </div>
-
         <!--using jQuery-->
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
         <!-- <script src="semantic/semantic.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
         <script src="main.js"></script>
     </body>
 

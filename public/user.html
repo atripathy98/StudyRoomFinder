@@ -5,7 +5,7 @@
         </title>
         <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="/css/main.css">
         <meta charset="utf-8">
     </head>
 
@@ -15,46 +15,22 @@
             <h3><a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a></h3>
             <div class = "user">
                 <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp; <a href = "index.html">Log out</a></p>
-                &nbsp; <a href="admin.html">Admin</a>
             </div>
         </div>
 
         <div class="ui grid main-page">
             <div class = "sixteen wide column">
-                <h3>Managing Rooms</h3>
-                <table class = "ui definition table">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>Room</th>
-                            <th>Location</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>401</td>
-                            <td>Library</td>
-                            <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td>
-                        </tr>
-                        <!-- using angualar etc. later for more information -->
-                    </tbody>
-                </table>
-                <button class = "ui mini button">Add New Rooms</button>
+                <a class = "ui button" href = "select.html">create new reservations</a>
             </div>
-            <div class = "sixteen wide column">
-            <h3>Managing Reservations</h3>
+            <h3>Current Reservations</h3>
             <table class = "ui definition table">
                 <thead>
                     <tr>
-                        <th>id</th>
+                        <th></th>
                         <th>Room</th>
-                        <th>Users</th>
                         <th>Start</th>
                         <th>Duration</th>
                         <th>Status</th>
-
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -62,7 +38,6 @@
                     <tr>
                         <td>1</td>
                         <td>401</td>
-                        <td>ghaie3</td>
                         <td>2pm, Feb 25th, 2018</td>
                         <td>2 hour </td>
                         <td>Not completed</td>
@@ -71,9 +46,30 @@
                     <!-- using angualar etc. later for more information -->
                 </tbody>
             </table>
-            <button class = "ui mini button">Add New Reservations</button>
-            </div>
-
+            <h3>Past Reservations</h3>
+            <table class = "ui definition table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Room</th>
+                        <th>Start</th>
+                        <th>Duration</th>
+                        <th></th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>401</td>
+                        <td>2pm, Feb 25th, 2018</td>
+                        <td>2 hour </td>
+                        <td></td>
+                        <td>Cancelled</td>
+                    </tr>
+                    <!-- using angualar etc. later for more information -->
+                </tbody>
+            </table>
         </div>
 
         <!--using jQuery-->
