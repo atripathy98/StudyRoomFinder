@@ -14,6 +14,7 @@ var server = http.createServer(app);
 /* MISC. */
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/js', express.static(__dirname + '/js'));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
