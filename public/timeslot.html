@@ -1,129 +1,101 @@
-<!DOCTYPE html>
-    <head>
-        <title>
-            RPI Room Finder
-        </title>
-        <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
-        <link rel="stylesheet" href="/css/main.css">
-        <meta charset="utf-8">
-    </head>
-
-    <body id = "main">
-        <!-- web nav bar -->
-        <div class="nav">
-            <h3><a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a></h3>
-            <div class = "user">
-                <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp; <a href = "index.html">Log out</a></p>
-                &nbsp; <a href="admin.html">Admin</a>
-            </div>
-        </div>
-
-        <div class="ui grid main-page">
-            <div class = "sixteen wide column">
-                <div class = "ui steps">
-                    <div class = "completed step">
-                        <i class = "home icon"></i>
-                        <div class = "content">
-                            <div class = "title">
-                                Select Room
-                            </div>
-                            <div class = "description">
-                                Choose potential rooms in library
-                            </div>
-                        </div>
+<div class="ui centered grid main-page" ng-controller = "slotController">
+    <div class = "row">
+        <div class = "ui steps">
+            <div class = "completed step">
+                <i class = "home icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Room
                     </div>
-                    <div class = "active step">
-                        <i class = "calendar alternate outline icon"></i>
-                        <div class = "content">
-                            <div class = "title">
-                                Select Time Slot
-                            </div>
-                            <div class = "description">
-                                Choose a maximum 2-hour slot
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "step">
-                        <i class = "info icon"></i>
-                        <div class = "content">
-                            <div class = "title">
-                                Confrim Time Slot
-                            </div>
-                            <div class = "description">
-                                Verify reservation information
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "step">
-                        <i class = "bullseye icon"></i>
-                        <div class = "content">
-                            <div class = "title">
-                                Success
-                            </div>
-                            <div class = "description">
-                                Receive Confirmation Email
-                            </div>
-                        </div>
+                    <div class = "description">
+                        Choose potential rooms in library
                     </div>
                 </div>
             </div>
-            <div class = "four wide column">
-                <form action="" class = "ui form">
-                    <div class = "field">
-                        <input type="text" placeholder="Enter Date">
+            <div class = "active step">
+                <i class = "calendar alternate outline icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Time Slot
                     </div>
-                    <div class = "field">
-                        <input type="text" placeholder="Start Time">
+                    <div class = "description">
+                        Choose a maximum 2-hour slot
                     </div>
-                    <div class = "field">
-                        <input type="text" placeholder="End Time">
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "info icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Confrim Time Slot
                     </div>
-                    <!-- <button class = "ui button">Filter</button> -->
-                </form>
+                    <div class = "description">
+                        Verify reservation information
+                    </div>
+                </div>
             </div>
-            <div class = "ten wide column">
-                <table class="ui celled table" ng-app = "time-select" ng-controller = "slots">
-                  <thead>
-                    <tr>
-                          <th></th>
-                          <th>Sunday</th>
-                          <th>Monday</th>
-                          <th>Tuesday</th>
-                          <th>Wednesday</th>
-                          <th>Thursday</th>
-                          <th>Friday</th>
-                          <th>Satutday</th>
-                    </tr>
-                 </thead>
-                    <tr ng-repeat="n in [] | range:12">
-                        <th>{{n*2}}:00</th>
-                        <td ng-repeat="m in [] | range:7" class = "selectable" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
-                    </tr>
-
-                  <tbody>
-
-                  </tbody>
-                </table>
-            </div>
-            <div class = "two wide column"></div>
-            <div class = "fourteen wide column">
-
-                <a href = "select.html" class="ui button" type = "submit" >Back</a>
-            </div>
-            <div class = "two wide column">
-                <a href = "confirm.html" class="ui button" type = "submit" >Next</a>
+            <div class = "step">
+                <i class = "bullseye icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Success
+                    </div>
+                    <div class = "description">
+                        Receive Confirmation Email
+                    </div>
+                </div>
             </div>
         </div>
-        <!--using jQuery-->
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-        <!-- angular -->
-        <script data-require="angular.js@1.2.7" data-semver="1.2.7" src="http://code.angularjs.org/1.2.7/angular.js"></script>
-        <!-- <script src="semantic/semantic.min.js"></script> -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
-        <script src="/js/main.js"></script>
-        <script src="/js/timeslot.js"></script>
-    </body>
+    <div class = "row">
+        <div class = "four wide column">
+            <form action="" class = "ui form">
+                <div class = "field">
+                    <input type="text" placeholder="Enter Date">
+                </div>
+                <div class = "field">
+                    <input type="text" placeholder="Start Time">
+                </div>
+                <div class = "field">
+                    <input type="text" placeholder="End Time">
+                </div>
+                <!-- <button class = "ui button">Filter</button> -->
+            </form>
+        </div>
+        <div class = "ten wide column">
+            <table class="ui celled table">
+              <thead>
+                <tr>
+                      <th></th>
+                      <th>Sunday</th>
+                      <th>Monday</th>
+                      <th>Tuesday</th>
+                      <th>Wednesday</th>
+                      <th>Thursday</th>
+                      <th>Friday</th>
+                      <th>Satutday</th>
+                </tr>
+             </thead>
+                <tr ng-repeat="n in [] | range:12">
+                    <th>{{n*2}}:00</th>
+                    <td ng-repeat="m in [] | range:7" class = "selectable" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
+                </tr>
+              <tbody>
 
-</html>
+              </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class = "fourteen wide column">
+
+            <button class="ui button" ng-click = "Back()">Back</button>
+        </div>
+        <div class = "two wide column">
+            <button class="ui button" ng-click = "Confirm()">Next</button>
+        </div>
+    </div>
+
+</div>
