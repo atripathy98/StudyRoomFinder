@@ -53,13 +53,14 @@
         <div class = "four wide column">
             <form action="" class = "ui form">
                 <div class = "field">
-                    <input type="text" placeholder="Location">
+                    <input type="text" placeholder="Location" ng-pattern="loc.location">
                 </div>
                 <div class = "field">
-                    <input type="text" placeholder="Room Number">
+                    <input type="text" placeholder="Room Number" ng-pattern="loc.room">
                 </div>
-
-
+                <div class = "field">
+                    <input type="text" placeholder="Capacity" ng-pattern="loc.num">
+                </div>
                 <button class = "ui button" ng-click="Search()">Submit</button>
             </form>
         </div>

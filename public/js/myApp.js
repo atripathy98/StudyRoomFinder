@@ -40,11 +40,19 @@ app.factory("myFactory", function() {
     function getDate() {
         return time;
     }
+    function resetRoom() {
+        var room = {};
+    }
+    function resetDate() {
+        var time = "";
+    }
     return {
         setRoom: setRoom,
         getRoom: getRoom,
         setDate: setDate,
-        getDate: getDate
+        getDate: getDate,
+        resetDate: resetDate,
+        resetRoom: resetRoom
     }
 })
 
@@ -72,10 +80,25 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
 
 
 app.controller("selectController", function($scope, $http, $location, myFactory) {
+    $scope.loc = {
+        location: "",
+        room: "",
+        num: 0
+    }
+    $scope.rooms = []
     $scope.Search = function(room) {
-        //
-        // TODO #1 store the data in the factory
-        // TODO #2 redirect to the room
+        myFactory.setRoom($scope.loc);
+        // TODO request data from database
+
+        $http£¨{
+            method: 'GET',
+            url: '/locations'
+        }).then(function(res) {
+            // TODO: show the list of data
+            //
+            // $scope.rooms = res.data ?
+        })
+        // TODO delete this later, move to reserve function
         $location.path("/timeSlot");
     }
 })
@@ -87,18 +110,17 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
     }
     $scope.chooseTime = function($event) {
         var timeselect = $event.currentTarget.attributes[2].value
-        // console.log(timeselect);
-        // timeslot date
         var datetime = timeselect.split(" ");
         $scope.currSelect = datetime;
-        console.log(datetime);
+        // console.log(datetime);
     }
     $scope.Confirm = function() {
-        // TODO #1 store time slot in factory
-        // TODO #2 redirect to the confirm page
+        // TODO : to mark the chosen box
+        myFactory.setDate($scope.currSelect);
         $location.path("/confirm");
     }
     $scope.Back = function() {
+        myFactory.resetRoom();
         $location.path("/selectRoom");
     }
 })
@@ -106,9 +128,19 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
 
 app.controller("confirmController", function($scope, $http, $location, myFactory) {
     $scope.Success = function() {
-        $location.path("/success");
+        $http({
+            method: 'POST',
+            url: '/reserve',
+            data: myFactory......
+        }).then(function(res) {
+            // TODO: send the reservation to the user
+            // if success direct to success page
+            $location.path("/success");
+        })
+
     }
     $scope.Slot = function() {
+        myFactory.resetDate();
         $location.path("/timeSlot");
     }
 })
