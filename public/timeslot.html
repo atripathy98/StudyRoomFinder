@@ -1,0 +1,101 @@
+<div class="ui centered grid main-page" ng-controller = "slotController">
+    <div class = "row">
+        <div class = "ui steps">
+            <div class = "completed step">
+                <i class = "home icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Room
+                    </div>
+                    <div class = "description">
+                        Choose potential rooms in library
+                    </div>
+                </div>
+            </div>
+            <div class = "active step">
+                <i class = "calendar alternate outline icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Time Slot
+                    </div>
+                    <div class = "description">
+                        Choose a maximum 2-hour slot
+                    </div>
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "info icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Confrim Time Slot
+                    </div>
+                    <div class = "description">
+                        Verify reservation information
+                    </div>
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "bullseye icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Success
+                    </div>
+                    <div class = "description">
+                        Receive Confirmation Email
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class = "four wide column">
+            <form action="" class = "ui form">
+                <div class = "field">
+                    <input type="text" placeholder="Enter Date">
+                </div>
+                <div class = "field">
+                    <input type="text" placeholder="Start Time">
+                </div>
+                <div class = "field">
+                    <input type="text" placeholder="End Time">
+                </div>
+                <!-- <button class = "ui button">Filter</button> -->
+            </form>
+        </div>
+        <div class = "ten wide column">
+            <table class="ui celled table">
+              <thead>
+                <tr>
+                      <th></th>
+                      <th>Sunday</th>
+                      <th>Monday</th>
+                      <th>Tuesday</th>
+                      <th>Wednesday</th>
+                      <th>Thursday</th>
+                      <th>Friday</th>
+                      <th>Satutday</th>
+                </tr>
+             </thead>
+                <tr ng-repeat="n in [] | range:12">
+                    <th>{{n*2}}:00</th>
+                    <td ng-repeat="m in [] | range:7" class = "selectable" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
+                </tr>
+              <tbody>
+
+              </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class = "fourteen wide column">
+
+            <button class="ui button" ng-click = "Back()">Back</button>
+        </div>
+        <div class = "two wide column">
+            <button class="ui button" ng-click = "Confirm()">Next</button>
+        </div>
+    </div>
+
+</div>

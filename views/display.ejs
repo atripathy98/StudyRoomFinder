@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>RPI Study Room Finder | Display Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body ng-controller="displayController">
+    <div class="container">
+
+      <form ng-submit="reserve()">
+        <h1>Reservation Addition</h1>
+        <div class="form-group">
+          <label for="track">Location Key</label>
+          <input type="text" class="form-control" id="track" ng-model="formData.locationkey" placeholder="Enter location key">
+        </div>
+        <div class="form-group">
+          <label for="track">Room Key</label>
+          <input type="text" class="form-control" id="track" ng-model="formData.roomkey" placeholder="Enter room key">
+        </div>
+        <div class="form-group">
+          <label for="track">Time Slot</label>
+          <input type="text" class="form-control" id="track" ng-model="formData.timeslot" placeholder="Enter time slot">
+        </div>
+        <div class="form-group">
+          <label for="tweet">Day</label>
+          <input type="text" class="form-control" id="tweet" ng-model="formData.day" placeholder="Enter day">
+        </div>
+        <button type="submit" class="btn btn-block">Submit</button>
+      </form>
+
+      <form ng-submit="addLocation()">
+        <h1>Location Addition</h1>
+        <div class="form-group">
+          <label for="track">Location Name</label>
+          <input type="text" class="form-control" id="track" ng-model="form2Data.name" placeholder="Enter location name">
+        </div>
+        <div class="form-group">
+          <label for="tweet">Floor Plan</label>
+          <input type="text" class="form-control" id="tweet" ng-model="form2Data.floorplan" placeholder="Enter floorplan">
+        </div>
+        <button type="submit" class="btn btn-block">Submit</button>
+      </form>
+
+      <form ng-submit="addRoom()">
+        <h1>Room Addition</h1>
+        <div class="form-group">
+          <label for="track">Location Key</label>
+          <input type="text" class="form-control" id="track" ng-model="form3Data.locationkey" placeholder="Enter location key">
+        </div>
+        <div class="form-group">
+          <label for="track">Room Number</label>
+          <input type="text" class="form-control" id="track" ng-model="form3Data.roomnum" placeholder="Enter room num">
+        </div>
+        <div class="form-group">
+          <label for="tweet">Max Seats</label>
+          <input type="text" class="form-control" id="tweet" ng-model="form3Data.maxseats" placeholder="Enter max seats">
+        </div>
+        <button type="submit" class="btn btn-block">Submit</button>
+      </form>
+
+
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/tether.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/firebase.js"></script>
+    <script src="/js/angularfire.min.js"></script>
+    <script src="/js/component.js"></script>
+    <script src="/js/app.js"></script>
+
+  </body>
+</html>

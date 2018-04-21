@@ -1,0 +1,92 @@
+<div class="ui centered grid main-page" ng-controller = "selectController">
+    <div class = "row">
+        <div class = "ui steps">
+            <div class = "active step">
+                <i class="home icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Room
+                    </div>
+                    <div class = "description">
+                        Choose potential rooms in library
+                    </div>
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "calendar alternate outline icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Time Slot
+                    </div>
+                    <div class = "description">
+                        Choose a maximum 2-hour slot
+                    </div>
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "info icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Confrim Time Slot
+                    </div>
+                    <div class = "description">
+                        Verify reservation information
+                    </div>
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "bullseye icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Success
+                    </div>
+                    <div class = "description">
+                        Receive Confirmation Email
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class = "row">
+        <div class = "four wide column">
+            <form action="" class = "ui form">
+                <div class = "field">
+                    <input type="text" placeholder="Location" ng-pattern="loc.location">
+                </div>
+                <div class = "field">
+                    <input type="text" placeholder="Room Number" ng-pattern="loc.room">
+                </div>
+                <div class = "field">
+                    <input type="text" placeholder="Capacity" ng-pattern="loc.num">
+                </div>
+                <button class = "ui button" ng-click="Search()">Submit</button>
+            </form>
+        </div>
+        <div class = "ten wide column">
+            <table class = "ui definition table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Room number</th>
+                        <th>Location</th>
+                        <th>Floor Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>401</td>
+                        <td>Library</td>
+                        <td><a href="#">Floor Plan</a> </td>
+                        <td><a href="timeslot.html">Reserve</a></td>
+                    </tr>
+                    <!-- using angualar etc. later for more information -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

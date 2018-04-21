@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+    <head>
+        <title>
+            RPI Room Finder
+        </title>
+        <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <meta charset="utf-8">
+    </head>
+
+    <body id = "main">
+        <!-- web nav bar -->
+        <div class="nav">
+            <h3><a class = "ui grey inverted header" href = "select.html">RPI Room Finder</a></h3>
+            <div class = "user">
+                <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp; <a href = "index.html">Log out</a></p>
+                &nbsp; <a href="admin.html">Admin</a>
+            </div>
+        </div>
+
+        <a href="admin.html" class = "ui button">Back</a>
+
+        <div class="ui centered grid main-page">
+            <div class = "row">
+                <h5 class = "ui header">Add New Location/Room</h5>
+            </div>
+            <div class = "row">
+                <form action="" class = "ui form">
+                    <div class = "field">
+                        <label for="locationName">Location Name</label>
+                        <input type="text" id = "locationName" placeholder="Location Name">
+                    </div>
+
+                    <div class = "field">
+                        <label for="roomNumber">Room Number</label>
+                        <input type="text" id = "roomNumber" placeholder="Room Number">
+                    </div>
+                    <div class = "field">
+                        <label for="maxCapacity">Maximum Capacity</label>
+                        <input type="text" id = "maxCapacity" placeholder="Max Capacity">
+                    </div>
+                    <button class = "ui button">Submit</button>
+                </form>
+            </div>
+
+
+
+        </div>    <!--using jQuery-->
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- angular -->
+        <script data-require="angular.js@1.2.7" data-semver="1.2.7" src="http://code.angularjs.org/1.2.7/angular.js"></script>
+        <!-- <script src="semantic/semantic.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/timeslot.js"></script>
+    </body>
+
+</html>

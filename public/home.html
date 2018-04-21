@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Schedule Reservation</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+        <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src = "/js/myApp.js"></script>
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+
+
+    <body ng-app="roomFinder" id = "main">
+        <div class="nav">
+            <h3><a class = "ui grey inverted header" href = "schedule.html">RPI Room Finder</a></h3>
+            <div class = "user">
+                <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp;  <a href = "index.html">Log out</a></p>
+                &nbsp; <a href="admin.html">Admin</a>
+            </div>
+        </div>
+        <div ng-controller="myControl">
+            <div ui-view></div>
+        </div>
+    </body>
+</html>

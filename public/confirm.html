@@ -1,0 +1,64 @@
+<div class="ui centered grid main-page" ng-controller = "confirmController">
+    <div class = "row">
+        <div class = "ui steps">
+            <div class = "completed step">
+                <i class = "home icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Room
+                    </div>
+                    <div class = "description">
+                        Choose potential rooms in library
+                    </div>
+                </div>
+            </div>
+            <div class = "completed step">
+                <i class = "calendar alternate outline icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Select Time Slot
+                    </div>
+                    <div class = "description">
+                        Choose a maximum 2-hour slot
+                    </div>
+                </div>
+            </div>
+            <div class = "active step">
+                <i class = "info icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Confrim Time Slot
+                    </div>
+                    <div class = "description">
+                        Verify reservation information
+                    </div>
+                </div>
+            </div>
+            <div class = "step">
+                <i class = "bullseye icon"></i>
+                <div class = "content">
+                    <div class = "title">
+                        Success
+                    </div>
+                    <div class = "description">
+                        Receive Confirmation Email
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "row">
+        <h3>Your reservation is : /////time/////// </h3>
+    </div>
+
+    <div class = "row">
+        <div class = "fourteen wide column">
+            <button class="ui button" ng-click = "Slot()">Back</button>
+        </div>
+        <div class = "two wide column">
+            <button class="ui button" ng-click = "Success()">Confirm</button>
+        </div>
+    </div>
+
+</div>

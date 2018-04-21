@@ -1,0 +1,28 @@
+{
+  "name": "studyroomfinder",
+  "version": "1.0.0",
+  "description": "* Xinyue Yan * Barry Chau * Honghao Li * Animesh Tripathy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atripathy98/StudyRoomFinder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atripathy98/StudyRoomFinder/issues"
+  },
+  "homepage": "https://github.com/atripathy98/StudyRoomFinder#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cas-authentication": "0.0.8",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "firebase-admin": "^5.12.0",
+    "path": "^0.12.7"
+  }
+}
