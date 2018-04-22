@@ -1,4 +1,6 @@
-var app = angular.module('roomFinder', ['ui.router']);
+var app = angular.module('roomFinder', ['ui.router', 'components', 'firebase']);
+
+// var app = angular.module('roomFinder', ['ui.router', 'components']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/user')
@@ -25,17 +27,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
 })
 
-// app.config(function() {
-//   var config = {
-//     apiKey: "AIzaSyDgaFX9JRlDo22OlazgCqZUVhrIgMsxcu0",
-//     authDomain: "itwstermproject.firebaseapp.com",
-//     databaseURL: "https://itwstermproject.firebaseio.com",
-//     projectId: "itwstermproject",
-//     storageBucket: "itwstermproject.appspot.com",
-//     messagingSenderId: "191753728638"
-//   };
-//   firebase.initializeApp(config);
-// });
+app.config(function() {
+    var config = {
+        apiKey: "AIzaSyD0QFWeuljmeD6tMVvFY9zTGCeRszlFdb0",
+        authDomain: "webscience2018.firebaseapp.com",
+        databaseURL: "https://webscience2018.firebaseio.com",
+        projectId: "webscience2018",
+        storageBucket: "webscience2018.appspot.com",
+        messagingSenderId: "240763692439"
+      };
+
+  firebase.initializeApp(config);
+});
 
 
 app.factory("myFactory", function() {
@@ -171,28 +174,28 @@ app.controller("successController", function($scope, $location) {
 /* GROUP X */
 
 //ANGULAR MODULE
-var adminapp = angular.module('app', ['components','firebase']);
+// var adminapp = angular.module('app', ['components','firebase']);
 // var app = angular.module('app', []);
 
 
 
 //FIREBASE CONFIG
-adminapp.config(function() {
-  var config = {
-    apiKey: "AIzaSyDgaFX9JRlDo22OlazgCqZUVhrIgMsxcu0",
-    authDomain: "itwstermproject.firebaseapp.com",
-    databaseURL: "https://itwstermproject.firebaseio.com",
-    projectId: "itwstermproject",
-    storageBucket: "itwstermproject.appspot.com",
-    messagingSenderId: "191753728638"
-  };
-  firebase.initializeApp(config);
-});
+// adminapp.config(function() {
+//   var config = {
+//     apiKey: "AIzaSyDgaFX9JRlDo22OlazgCqZUVhrIgMsxcu0",
+//     authDomain: "itwstermproject.firebaseapp.com",
+//     databaseURL: "https://itwstermproject.firebaseio.com",
+//     projectId: "itwstermproject",
+//     storageBucket: "itwstermproject.appspot.com",
+//     messagingSenderId: "191753728638"
+//   };
+//   firebase.initializeApp(config);
+// });
 
 
 
 //ANGULAR CONTROLLER
-adminapp.controller("displayController", ["$scope", "$firebaseObject","$http",
+app.controller("displayController", ["$scope", "$firebaseObject","$http",
  function($scope, $firebaseObject, $http) {
 // app.controller("displayController", function($scope, $http) {
     //var ref = firebase.database().ref().child("rpiroomfinder") //.child("");
@@ -201,6 +204,7 @@ adminapp.controller("displayController", ["$scope", "$firebaseObject","$http",
 
     $scope.reserve = function() {
       //CHECK IF FIELDS HAVE ALL BEEN SET
+
       $http({
         method: 'GET',
         url: '/reserve',
