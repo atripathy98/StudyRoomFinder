@@ -95,7 +95,7 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
 })
 
 
-app.controller("selectController", function($scope, $http, $location, myFactory) {
+app.controller("selectController", function($scope, $http, $location, myFactory, $firebaseObject) {
     $scope.loc = {
         location: "",
         room: "",
@@ -120,16 +120,21 @@ app.controller("selectController", function($scope, $http, $location, myFactory)
 })
 
 app.controller("slotController", function($scope, $http, $location, myFactory) {
-    $scope.currSelect = ""
-    $scope.setName = function(day, time) {
-        return day.toString()+" "+time.toString();
-    }
+    $scope.date = new Date();
+    $scope.datesx = [$scope.date.setDate($scope.date.getDate()),$scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1)];
+
+    $scope.currSelect = null;
+
+
     $scope.chooseTime = function($event) {
+        console.log($scope.datesx);
         var timeselect = $event.currentTarget.attributes[2].value
         var datetime = timeselect.split(" ");
         $scope.currSelect = datetime;
-        // console.log(datetime);
+        console.log($scope.currSelect);
     }
+
+
     $scope.Confirm = function() {
         // TODO : to mark the chosen box
         myFactory.setDate($scope.currSelect);

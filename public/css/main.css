@@ -61,3 +61,19 @@
 .ui.card.set_name {
     margin: 4em;
 }
+
+
+.selectable.slots.highlight {
+    background-color: yellow;
+}
+
+
+
+
+span {
+  cursor: pointer;
+}
+
+.selected-class-name {
+  color: red;
+}

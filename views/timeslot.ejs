@@ -68,18 +68,12 @@
               <thead>
                 <tr>
                       <th></th>
-                      <th>Sunday</th>
-                      <th>Monday</th>
-                      <th>Tuesday</th>
-                      <th>Wednesday</th>
-                      <th>Thursday</th>
-                      <th>Friday</th>
-                      <th>Satutday</th>
+                      <th ng-repeat = "n in datesx">{{n | date}}</th>
                 </tr>
              </thead>
                 <tr ng-repeat="n in [] | range:12">
                     <th>{{n*2}}:00</th>
-                    <td ng-repeat="m in [] | range:7" class = "selectable" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
+                    <td ng-repeat="m in [] | range:7" class = "selectable slots" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
                 </tr>
               <tbody>
 
