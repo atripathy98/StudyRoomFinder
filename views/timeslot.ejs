@@ -1,8 +1,8 @@
-<div class="ui centered grid main-page" ng-controller = "selectController">
+<div class="ui centered grid sub-page" ng-controller = "slotController">
     <div class = "row">
         <div class = "ui steps">
-            <div class = "active step">
-                <i class="home icon"></i>
+            <div class = "completed step">
+                <i class = "home icon"></i>
                 <div class = "content">
                     <div class = "title">
                         Select Room
@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-            <div class = "step">
+            <div class = "active step">
                 <i class = "calendar alternate outline icon"></i>
                 <div class = "content">
                     <div class = "title">
@@ -48,44 +48,53 @@
         </div>
     </div>
 
-
     <div class = "row">
         <div class = "four wide column">
             <form action="" class = "ui form">
                 <div class = "field">
-                    <input type="text" placeholder="Location" ng-pattern="loc.location">
+                    <input type="text" placeholder="Enter Date">
                 </div>
                 <div class = "field">
-                    <input type="text" placeholder="Room Number" ng-pattern="loc.room">
+                    <input type="text" placeholder="Start Time">
                 </div>
                 <div class = "field">
-                    <input type="text" placeholder="Capacity" ng-pattern="loc.num">
+                    <input type="text" placeholder="End Time">
                 </div>
-                <button class = "ui button" ng-click="Search()">Submit</button>
+                <!-- <button class = "ui button">Filter</button> -->
             </form>
         </div>
         <div class = "ten wide column">
-            <table class = "ui definition table">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Room number</th>
-                        <th>Location</th>
-                        <th>Floor Plan</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>401</td>
-                        <td>Library</td>
-                        <td><a href="#">Floor Plan</a> </td>
-                        <td><a href="timeslot.html">Reserve</a></td>
-                    </tr>
-                    <!-- using angualar etc. later for more information -->
-                </tbody>
+            <table class="ui celled table">
+              <thead>
+                <tr>
+                      <th></th>
+                      <th>Sunday</th>
+                      <th>Monday</th>
+                      <th>Tuesday</th>
+                      <th>Wednesday</th>
+                      <th>Thursday</th>
+                      <th>Friday</th>
+                      <th>Satutday</th>
+                </tr>
+             </thead>
+                <tr ng-repeat="n in [] | range:12">
+                    <th>{{n*2}}:00</th>
+                    <td ng-repeat="m in [] | range:7" class = "selectable" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
+                </tr>
+              <tbody>
+
+              </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class = "fourteen wide column">
+
+            <button class="ui button" ng-click = "Back()">Back</button>
+        </div>
+        <div class = "two wide column">
+            <button class="ui button" ng-click = "Confirm()">Next</button>
         </div>
     </div>
 

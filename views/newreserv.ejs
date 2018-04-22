@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+    <head>
+        <title>
+            RPI Room Finder
+        </title>
+        <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <link rel="stylesheet" href="/public/css/main.css">
+        <meta charset="utf-8">
+    </head>
+
+    <body id = "main">
+        <!-- web nav bar -->
+
+        <nav class="ui inverted menu">
+            <h3 class="header item">RPI Room Finder</h3>
+            <span class="right floated text item">
+                <p>Username &nbsp;<a href="user.html">Reservations</a>&nbsp; <a href = "/logout">Log out</a></p>
+                &nbsp; Admin
+            </span>
+        </nav>
+
+        <a href="/admin" class = "ui button">Back</a>
+
+        <div class="ui grid sub-page">
+            <div class = "row">
+
+                <form ng-submit="reserve()" class = "ui form" style = "margin: auto;">
+                  <h1>Reservation Addition</h1>
+                  <div class="field">
+                    <label for="track">Location Key</label>
+                    <input type="text" class="form-control" id="track" ng-model="formData.locationkey" placeholder="Enter location key">
+                  </div>
+                  <div class="field">
+                    <label for="track">Room Key</label>
+                    <input type="text" class="form-control" id="track" ng-model="formData.roomkey" placeholder="Enter room key">
+                  </div>
+                  <div class="field">
+                    <label for="track">Time Slot</label>
+                    <input type="text" class="form-control" id="track" ng-model="formData.timeslot" placeholder="Enter time slot">
+                  </div>
+                  <div class="field">
+                    <label for="tweet">Day</label>
+                    <input type="text" class="form-control" id="tweet" ng-model="formData.day" placeholder="Enter day">
+                  </div>
+                  <button type="submit" class="ui button">Submit</button>
+                </form>
+            </div>
+
+
+
+        </div>    <!--using jQuery-->
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- angular -->
+        <script data-require="angular.js@1.2.7" data-semver="1.2.7" src="http://code.angularjs.org/1.2.7/angular.js"></script>
+        <!-- <script src="semantic/semantic.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script src="/public/js/main.js"></script>
+    </body>
+
+</html>

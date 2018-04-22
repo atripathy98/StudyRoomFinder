@@ -1,26 +1,45 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>RPI Study Room Finder | Set Up Account</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="display-4 text-center">Welcome new user!</h1>
-      <div class="d-flex justify-content-center">
-        <form action="/profile" method="GET" class="w-50">
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" name="name" placeholder="Enter name" required>
-          </div>
-          <button class="btn btn-block btn-danger">Set Name</button>
-        </form>
-      </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+
+    <head>
+    	<meta charset="utf-8">
+    	<title>RPI Study Room Finder | Set Up Account</title>
+
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+
+    	<link rel="stylesheet" href="/public/css/main.css">
+
+    </head>
+
+    <body>
+
+
+    	<div class="ui centered card set_name" style = "margin-top: 2em;">
+            <div class = "content">
+                <h4 class = "ui header">Welcome new user!</h4>
+                <div class = "description">
+                    <form action="/profile" method="GET" class="w-50">
+            			<div class="form-group">
+            				<div class="ui input">
+            					<input type="text" placeholder="Enter Nickname">
+            				</div>
+            			</div>
+                        <br>
+            			<button class="ui mini blue button">Set Nickname</button>
+            		</form>
+                </div>
+            </div>
+
+
+
+    	</div>
+
+
+    	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+    	<script type="text/javascript" src="/public/js/myApp.js"></script>
+    </body>
+
 </html>

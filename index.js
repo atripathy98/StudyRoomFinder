@@ -13,8 +13,10 @@ var server = http.createServer(app);
 
 /* MISC. */
 app.set('view engine', 'ejs');
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/js', express.static(__dirname + '/js'));
+// app.use('/js', express.static(__dirname + '/js'));
+app.use('/public', express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
 /* EXPRESS SESSIONS */
@@ -47,30 +49,35 @@ var reservationref = db.ref("/reservations");
 
 /* LANDING ROUTE */
 app.get('/',function(req,res){
-	res.render('mainpage.ejs');
+	res.render('index.ejs');
 });
 
 
 /* APPLICATION ROUTES */
-app.get('/profile',function(req,res){
+app.get('/home',function(req,res){
 	// Initial profile creation (get name)
 	if(req.session.profilestatus == 0){
 		req.session.profilestatus++;
 		res.render('setup.ejs',{user: req.session.username});
 	// Update Firebase (set name)
-	}else if(req.session.profilestatus == 1){
+	} else if(req.session.profilestatus == 1){
 		req.session.profilestatus++;
 		var data = {};
 		var key = req.session.sessionkey + "/name";
 		data[key] = req.query.name;
 		usersref.update(data);
-		res.render('profile.ejs',{name: data[key]});
+		res.render('home.ejs',{name: data[key]});
 	// Render profile page
-	}else{
+	} else{
 		var userchild = usersref.child("/"+req.session.sessionkey);
 		userchild.once("value", function(data){
 			var userinfo = data.val();
-	 		res.render('profile.ejs',{name: userinfo["name"]});
+            if (userinfo) {
+                res.render('home.ejs',{name: userinfo["name"]});
+            } else {
+                res.render('home.ejs',{name: ""});
+            }
+
 		});
 	}
 });
@@ -244,11 +251,55 @@ app.get('/authenticate', cas.bounce, function(req,res){
 		}else{
 			req.session.sessionkey = Object.keys(data.val())[0];
 		}
-		res.redirect('/profile');
+		res.redirect('/home');
 	});
 });
 // CAS Log Out
 app.get('/logout', cas.logout);
+
+
+app.get('/user', function(req, res) {
+    res.render('user.ejs')
+})
+
+app.get('/select', function(req, res) {
+    res.render('select.ejs')
+})
+
+app.get('/ts', function(req, res) {
+    res.render('timeslot.ejs')
+})
+
+app.get('/cf', function(req, res) {
+    res.render('confirm.ejs')
+})
+
+app.get('/sus', function(req, res) {
+    res.render('success.ejs')
+})
+
+// TODO need to remove it if authenticated part completed.
+app.get('/admin', function(req, res) {
+    var userchild = usersref.child("/"+req.session.sessionkey);
+    userchild.once("value", function(data){
+        var userinfo = data.val();
+        res.render('admin.ejs',{name: userinfo["name"]});
+    });
+    // res.render('admin.ejs',{name: userinfo["name"]});
+})
+
+
+app.get("/adrom", function(req, res) {
+    res.render('newroom.ejs');
+})
+
+app.get("/adres", function(req, res) {
+    res.render('newreserv.ejs');
+})
+
+app.get("/adloc", function(req, res) {
+    res.render('newloc.ejs');
+})
 
 
 /* SERVER PORT */

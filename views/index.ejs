@@ -5,15 +5,22 @@
         </title>
         <!-- <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css"> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="public/css/main.css">
         <meta charset="utf-8">
     </head>
 
-    <body id = "index_main">
-        <!-- web nav bar -->
-        <div class="nav">
-            <h3><a class = "ui grey inverted header" href = "/index.html">RPI Room Finder</a><h3>
-        </div>
+    <body class = "index_main">
+
+        <nav class="ui inverted menu">
+            <h3 class="header item">RPI Room Finder</h3>
+            <span class="right floated text item">
+                <a href="/admin">Admin</a>
+            </span>
+            <span class="right floated text item">
+                <a href="/authenticate">Login</a>
+            </span>
+        </nav>
+
 
         <div class="ui grid custom-grid">
             <div class = "eight wide column">
@@ -42,19 +49,10 @@
             </div>
             <div class = "two wide column"></div>
             <div class = "five wide column ">
-                <form class="ui form">
-                    <div class = "field">
-                        <label>RCS ID</label>
-                        <input type="text" name="rcs-id" placeholder="RCS ID">
-                    </div>
-                    <div class = "field">
-                        <label>Password</label>
-                        <input type="password" name="password" placeholder="Password">
-                    </div>
-                    <br>
-                    <a href = "/home.html" class="ui button" type = "submit" >Submit</a>
-                    <a href="/admin.html" class ="ui button" type = "submit">Temp Admin</a>
-                </form>
+
+                <!-- <form action="/authenticate" method="GET" class="ui form" >
+                   <button class="ui button">Log In</button>
+                </form> -->
             </div>
             <div class = "one wide column"></div>
         </div>
@@ -62,7 +60,7 @@
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <!-- <script src="semantic/semantic.min.js"></script> -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
-        <script src="/js/main.js"></script>
+        <script src="public/js/main.js"></script>
     </body>
 
 </html>

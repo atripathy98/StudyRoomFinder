@@ -17,6 +17,12 @@
     padding: 10% 5% 10% 5%;
 }
 
+
+.ui.grid.sub-page {
+    padding: 2% 5% 2% 5%;
+}
+
+
 #main::after {
     background: url("http://www.lib.rpi.edu/Archives/buildings/images/folsom_library.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -26,13 +32,15 @@
 }
 
 .user {
+
+
     color: gray;
     float: right;
     margin-top: -2em;
 }
 
 
-#index_main {
+.index_main {
     background: url('../src/bg.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -41,7 +49,15 @@
 }
 
 
+
+
 .ui.secondary.segment.instruction {
     opacity: 0.8;
     padding: 3em;
+}
+
+
+
+.ui.card.set_name {
+    margin: 4em;
 }

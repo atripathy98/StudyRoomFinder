@@ -1,28 +1,41 @@
 var app = angular.module('roomFinder', ['ui.router']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/user')
     $stateProvider
     .state('/user', {
         url:'/user',
-        templateUrl: '/user.html'
+        templateUrl: '/user'
     })
-    .state('/selectRoom', {
-        url: '/selectRoom',
-        templateUrl: '/select.html'
+    .state('/select', {
+        url: '/select',
+        templateUrl: '/select'
     })
     .state('/timeSlot', {
         url: '/timeSlot',
-        templateUrl: '/timeslot.html'
+        templateUrl: '/ts'
     })
     .state('/confirm', {
         url: '/confirm',
-        templateUrl: '/confirm.html'
+        templateUrl: '/cf'
     })
     .state('/success', {
         url: '/success',
-        templateUrl: '/success.html'
+        templateUrl: '/sus'
     })
 })
+
+// app.config(function() {
+//   var config = {
+//     apiKey: "AIzaSyDgaFX9JRlDo22OlazgCqZUVhrIgMsxcu0",
+//     authDomain: "itwstermproject.firebaseapp.com",
+//     databaseURL: "https://itwstermproject.firebaseio.com",
+//     projectId: "itwstermproject",
+//     storageBucket: "itwstermproject.appspot.com",
+//     messagingSenderId: "191753728638"
+//   };
+//   firebase.initializeApp(config);
+// });
 
 
 app.factory("myFactory", function() {
@@ -67,14 +80,14 @@ app.filter('range', function() {
 
 
 app.controller("myControl", function($location) {
-    $location.path("/user")
+    $location.path("/user");
 });
 
 
 app.controller("userController", function($scope, $http, $location, myFactory) {
     $scope.newReserv = function() {
         // move to the reserve page
-        $location.path("/selectRoom");
+        $location.path("/select");
     }
 })
 
@@ -90,14 +103,14 @@ app.controller("selectController", function($scope, $http, $location, myFactory)
         myFactory.setRoom($scope.loc);
         // TODO request data from database
 
-        $http£¨{
-            method: 'GET',
-            url: '/locations'
-        }).then(function(res) {
-            // TODO: show the list of data
-            //
-            // $scope.rooms = res.data ?
-        })
+        // $http£¨{
+        //     method: 'GET',
+        //     url: '/locations'
+        // }).then(function(res) {
+        //     // TODO: show the list of data
+        //     //
+        //     // $scope.rooms = res.data ?
+        // })
         // TODO delete this later, move to reserve function
         $location.path("/timeSlot");
     }
@@ -128,17 +141,18 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
 
 app.controller("confirmController", function($scope, $http, $location, myFactory) {
     $scope.Success = function() {
-        $http({
-            method: 'POST',
-            url: '/reserve',
-            data: myFactory......
-        }).then(function(res) {
-            // TODO: send the reservation to the user
-            // if success direct to success page
-            $location.path("/success");
-        })
-
+        // $http({
+        //     method: 'POST',
+        //     url: '/reserve',
+        //     data: myFactory......
+        // }).then(function(res) {
+        //     // TODO: send the reservation to the user
+        //     // if success direct to success page
+        //      $location.path("/success");
+        // })
     }
+    $location.path("/success");
+
     $scope.Slot = function() {
         myFactory.resetDate();
         $location.path("/timeSlot");
@@ -150,3 +164,81 @@ app.controller("successController", function($scope, $location) {
         $location.path("/user");
     }
 })
+
+
+
+/* ANGULAR JS PORTION */
+/* GROUP X */
+
+//ANGULAR MODULE
+var adminapp = angular.module('app', ['components','firebase']);
+// var app = angular.module('app', []);
+
+
+
+//FIREBASE CONFIG
+adminapp.config(function() {
+  var config = {
+    apiKey: "AIzaSyDgaFX9JRlDo22OlazgCqZUVhrIgMsxcu0",
+    authDomain: "itwstermproject.firebaseapp.com",
+    databaseURL: "https://itwstermproject.firebaseio.com",
+    projectId: "itwstermproject",
+    storageBucket: "itwstermproject.appspot.com",
+    messagingSenderId: "191753728638"
+  };
+  firebase.initializeApp(config);
+});
+
+
+
+//ANGULAR CONTROLLER
+adminapp.controller("displayController", ["$scope", "$firebaseObject","$http",
+ function($scope, $firebaseObject, $http) {
+// app.controller("displayController", function($scope, $http) {
+    //var ref = firebase.database().ref().child("rpiroomfinder") //.child("");
+    //var obj = $firebaseObject(ref);
+    //obj.$bindTo($scope, "data");
+
+    $scope.reserve = function() {
+      //CHECK IF FIELDS HAVE ALL BEEN SET
+      $http({
+        method: 'GET',
+        url: '/reserve',
+        params: $scope.formData
+      }).then(function(response) {
+          console.log(response.data);
+          $scope.formData = {};
+      }, function errorCallback(response) {
+          //ERROR STREAMING
+      });
+    };
+
+    $scope.addLocation = function() {
+      //CHECK IF FIELDS HAVE ALL BEEN SET
+      $http({
+        method: 'GET',
+        url: '/addLocation',
+        params: $scope.form2Data
+      }).then(function(response) {
+          console.log(response.data);
+          $scope.form2Data = {};
+      }, function errorCallback(response) {
+          //ERROR STREAMING
+      });
+    };
+
+    $scope.addRoom = function() {
+      //CHECK IF FIELDS HAVE ALL BEEN SET
+      $http({
+        method: 'GET',
+        url: '/addRoom',
+        params: $scope.form3Data
+      }).then(function(response) {
+          console.log(response.data);
+          $scope.form3Data = {};
+      }, function errorCallback(response) {
+          //ERROR STREAMING
+      });
+    };
+
+}]);
