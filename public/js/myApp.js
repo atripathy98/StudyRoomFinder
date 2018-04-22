@@ -44,6 +44,7 @@ app.config(function() {
 app.factory("myFactory", function() {
     var room = {}
     var time = ""
+    var realdate = null
     function setRoom(data) {
         room = data;
     }
@@ -57,10 +58,13 @@ app.factory("myFactory", function() {
         return time;
     }
     function resetRoom() {
-        var room = {};
+        room = {};
     }
     function resetDate() {
-        var time = "";
+        time = "";
+    }
+    function setExactTime(data) {
+        realdata = data;
     }
     return {
         setRoom: setRoom,
@@ -132,6 +136,8 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
         var datetime = timeselect.split(" ");
         $scope.currSelect = datetime;
         console.log($scope.currSelect);
+        myFactory.setDate($scope.currSelect);
+        var index = curr
     }
 
 
@@ -148,6 +154,9 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
 
 
 app.controller("confirmController", function($scope, $http, $location, myFactory) {
+    $scope.today = new Date();
+    $scope.time = $scope.today.setDate($scope.today.getDate()+parseInt(myFactory.getDate[1]))
+    $scope.room = myFactory.getRoom;
     $scope.Success = function() {
         // $http({
         //     method: 'POST',
@@ -158,8 +167,10 @@ app.controller("confirmController", function($scope, $http, $location, myFactory
         //     // if success direct to success page
         //      $location.path("/success");
         // })
+        console.log(myFactory.getDate(), myFactory.getRoom())
+        // $location.path("/success");
     }
-    $location.path("/success");
+
 
     $scope.Slot = function() {
         myFactory.resetDate();
