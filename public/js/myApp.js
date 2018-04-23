@@ -132,12 +132,19 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
 
     $scope.chooseTime = function($event) {
         console.log($scope.datesx);
+        angular.element('#'+$scope.currSelect).removeClass("active");
         var timeselect = $event.currentTarget.attributes[2].value
-        var datetime = timeselect.split(" ");
-        $scope.currSelect = datetime;
-        console.log($scope.currSelect);
+        if ($scope.currSelect != timeselect) {
+            $scope.currSelect = timeselect;
+            // console.log($scope.currSelect);
+            var id = '#'+timeselect;
+            console.log(id);
+            angular.element('#'+timeselect).addClass("active");
+        } else {
+            $scope.currSelect = null;
+        }
         myFactory.setDate($scope.currSelect);
-        var index = curr
+
     }
 
 
@@ -151,7 +158,6 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
         $location.path("/selectRoom");
     }
 })
-
 
 app.controller("confirmController", function($scope, $http, $location, myFactory) {
     $scope.today = new Date();

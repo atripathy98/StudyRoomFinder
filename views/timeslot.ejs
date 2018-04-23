@@ -64,7 +64,7 @@
             </form>
         </div>
         <div class = "ten wide column">
-            <table class="ui celled table">
+            <table class="ui celled table" timetable = "timetable">
               <thead>
                 <tr>
                       <th></th>
@@ -73,7 +73,7 @@
              </thead>
                 <tr ng-repeat="n in [] | range:12">
                     <th>{{n*2}}:00</th>
-                    <td ng-repeat="m in [] | range:7" class = "selectable slots" name = "{{n}} {{m}}" ng-click="chooseTime($event)"></td>
+                    <td ng-repeat="m in [] | range:7" class = "selectable slots" id = "{{n}}-{{m}}" name = "{{n}}-{{m}}" ng-click="chooseTime($event)"></td>
                 </tr>
               <tbody>
 
