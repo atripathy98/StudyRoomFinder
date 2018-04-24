@@ -2,6 +2,7 @@ var app = angular.module('roomFinder', ['ui.router', 'components', 'firebase']);
 
 // var app = angular.module('roomFinder', ['ui.router', 'components']);
 
+// ------ config ui router -> allow pages to contain subpages
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/user')
     $stateProvider
@@ -27,6 +28,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
 })
 
+
 app.config(function() {
     var config = {
         apiKey: "AIzaSyD0QFWeuljmeD6tMVvFY9zTGCeRszlFdb0",
@@ -40,11 +42,13 @@ app.config(function() {
   firebase.initializeApp(config);
 });
 
-
+// ------ factory -> store data in the same app and let data available within different controllers
 app.factory("myFactory", function() {
-    var room = {}
-    var time = ""
+    var room = null;
+    var time = null;
     var realdate = null
+    var roomlist = null;
+    var slotlist = null;
     function setRoom(data) {
         room = data;
     }
@@ -58,13 +62,22 @@ app.factory("myFactory", function() {
         return time;
     }
     function resetRoom() {
-        room = {};
+        room = null;;
     }
     function resetDate() {
-        time = "";
+        time = null;
     }
-    function setExactTime(data) {
-        realdata = data;
+    function setRoomList(data) {
+        roomlist = data;
+    }
+    function getRoomList(data) {
+        return roomlist;
+    }
+    function setSlotList(data) {
+        slotList = data;
+    }
+    function getSlotList(data) {
+        return slotlist;
     }
     return {
         setRoom: setRoom,
@@ -72,10 +85,15 @@ app.factory("myFactory", function() {
         setDate: setDate,
         getDate: getDate,
         resetDate: resetDate,
-        resetRoom: resetRoom
+        resetRoom: resetRoom,
+        setRoomList: setRoomList,
+        getRoomList: getRoomList,
+        setSlotList: setSlotList,
+        getSlotList: getSlotList
     }
 })
 
+// filter -> range
 app.filter('range', function() {
   return function(input, total) {
     total = parseInt(total);
@@ -85,31 +103,50 @@ app.filter('range', function() {
   };
 });
 
-
+// main page -> show user first
 app.controller("myControl", function($location) {
     $location.path("/user");
 });
 
-
+// make new reservation -> retrieve data and store in the factory, redirect to select page
 app.controller("userController", function($scope, $http, $location, myFactory) {
+    $scope.resevs = [];
+    $scope.loadResev = function() {
+        $http({
+            method: 'GET',
+            url:'/getReservations'
+        }).then(function(res) {
+            // TODO res data needs to return et
+            $scope.reservs = res.data;
+            console.log($scope.resevs);
+        })
+    }
     $scope.newReserv = function() {
         // move to the reserve page
-        $location.path("/select");
+        $http({
+            method:'GET',
+            url:'/getAllRooms'
+        }).then(function(res) {
+            // store the list
+            console.log(res.data.data);
+            myFactory.setRoomList(res.data.data);
+            $location.path("/select");
+        })
     }
+    $scope.loadResev();
 })
 
-
+// select page allow user to select rooms
 app.controller("selectController", function($scope, $http, $location, myFactory, $firebaseObject) {
-    $scope.loc = {
-        location: "",
-        room: "",
-        num: 0
-    }
-    $scope.rooms = []
+    // $scope.loc = {
+    //     location: "",
+    //     room: "",
+    //     num: 0
+    // }
+    $scope.rooms = myFactory.getRoomList();
     $scope.Search = function(room) {
-        myFactory.setRoom($scope.loc);
-        // TODO request data from database
-
+        // myFactory.setRoom($scope.loc);
+        // // TODO request data from database
         // $http£¨{
         //     method: 'GET',
         //     url: '/locations'
@@ -118,17 +155,23 @@ app.controller("selectController", function($scope, $http, $location, myFactory,
         //     //
         //     // $scope.rooms = res.data ?
         // })
-        // TODO delete this later, move to reserve function
+        $location.path("/timeSlot");
+    }
+    $scope.Choose = function(roomkey, roomnum, lockey) {
+        var chosenRoom = [roomkey, roomnum, lockey];
+        myFactory.setRoom(chosenRoom);
+        // request the reservation data of that rooms
+        // TODO!
         $location.path("/timeSlot");
     }
 })
 
+// timeslot choosing
 app.controller("slotController", function($scope, $http, $location, myFactory) {
     $scope.date = new Date();
     $scope.datesx = [$scope.date.setDate($scope.date.getDate()),$scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1)];
 
     $scope.currSelect = null;
-
 
     $scope.chooseTime = function($event) {
         console.log($scope.datesx);
@@ -136,22 +179,34 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
         var timeselect = $event.currentTarget.attributes[2].value
         if ($scope.currSelect != timeselect) {
             $scope.currSelect = timeselect;
-            // console.log($scope.currSelect);
             var id = '#'+timeselect;
-            console.log(id);
+            // console.log(id);
             angular.element('#'+timeselect).addClass("active");
         } else {
             $scope.currSelect = null;
         }
-        myFactory.setDate($scope.currSelect);
+        // slot num, date num
+        var ndate = parseInt($scope.currSelect.split('-')[1]);
+        var nslot = parseInt($scope.currSelect.split('-')[0]);
+        var day = new Date();
+        day = day.setDate(day.getDate()+ndate);
+        var chosenTime = [ndate,nslot,day]
+
+        myFactory.setDate(chosenTime);
+
+        console.log("chosen date " + myFactory.getDate());
+        // console.log(chosenTime);
 
     }
 
-
     $scope.Confirm = function() {
         // TODO : to mark the chosen box
-        myFactory.setDate($scope.currSelect);
-        $location.path("/confirm");
+        // myFactory.setDate($scope.currSelect);
+        if ($scope.currSelect != null) {
+            $location.path("/confirm");
+        }
+        else
+            alert("You need to select a time slot to confirm");
     }
     $scope.Back = function() {
         myFactory.resetRoom();
@@ -160,21 +215,21 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
 })
 
 app.controller("confirmController", function($scope, $http, $location, myFactory) {
-    $scope.today = new Date();
-    $scope.time = $scope.today.setDate($scope.today.getDate()+parseInt(myFactory.getDate[1]))
-    $scope.room = myFactory.getRoom;
+    // $scope.today = new Date();
+    // $scope.time = $scope.today.setDate($scope.today.getDate()+parseInt(myFactory.getDate[1]))
+    $scope.room = myFactory.getRoom();
+    $scope.time = myFactory.getDate();
     $scope.Success = function() {
-        // $http({
-        //     method: 'POST',
-        //     url: '/reserve',
-        //     data: myFactory......
-        // }).then(function(res) {
-        //     // TODO: send the reservation to the user
-        //     // if success direct to success page
-        //      $location.path("/success");
-        // })
-        console.log(myFactory.getDate(), myFactory.getRoom())
-        // $location.path("/success");
+        $http({
+            method: 'GET',
+            url: '/reserve',
+            query: {'locationkey': $scope.room[2], 'roomkey': $scope.room[0], 'timeslot':$scope.time[1], 'date': $scope.time[0]}
+        }).then(function(res){
+            $location.path("/success");
+        })
+        // console.log(myFactory.getDate());
+        // console.log(myFactory.getRoom());
+        $location.path("/success");
     }
 
 

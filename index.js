@@ -14,7 +14,7 @@ var server = http.createServer(app);
 /* MISC. */
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/js', express.static(__dirname + '/js'));
+app.use('/public', express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
 /* EXPRESS SESSIONS */
@@ -93,10 +93,10 @@ function requireActiveSession(req,res,next){
 /* WEB APPLICATION ROUTES */
 // Landing Route
 app.get('/',function(req,res){
-	res.render('mainpage.ejs');
+	res.render('index.ejs');
 });
 // Profile Route
-app.get('/profile',requireActiveSession,function(req,res){
+app.get('/home',requireActiveSession,function(req,res){
 	var username = req.session[cas.session_name];
 	usersref.orderByChild("user").equalTo(username).once("value", function(snapshot){
 		var data = snapshot.val();
@@ -108,16 +108,45 @@ app.get('/profile',requireActiveSession,function(req,res){
 			var dbendpoint = key + "/name";
 			dbparams[dbendpoint] = req.query.name;
 			usersref.update(dbparams);
-			return res.render('profile.ejs',{name: dbparams[dbendpoint]});
+			return res.render('home.ejs',{name: dbparams[dbendpoint]});
 		}else if(name === ""){
 			// If name has not been set
 			return res.render('setup.ejs');
 		}else{
 			// User profile created
-			return res.render('profile.ejs',{name: name});
+			return res.render('home.ejs',{name: name});
 		}
 	});
 });
+
+// app.get('/home',function(req,res){
+// 	// Initial profile creation (get name)
+// 	if(req.session.profilestatus == 0){
+// 		req.session.profilestatus++;
+// 		res.render('setup.ejs',{user: req.session.username});
+// 	// Update Firebase (set name)
+// 	} else if(req.session.profilestatus == 1){
+// 		req.session.profilestatus++;
+// 		var data = {};
+// 		var key = req.session.sessionkey + "/name";
+// 		data[key] = req.query.name;
+// 		usersref.update(data);
+// 		res.render('home.ejs',{name: data[key]});
+// 	// Render profile page
+// 	} else{
+// 		var userchild = usersref.child("/"+req.session.sessionkey);
+// 		userchild.once("value", function(data){
+// 			var userinfo = data.val();
+//             if (userinfo) {
+//                 res.render('home.ejs',{name: userinfo["name"]});
+//             } else {
+//                 res.render('home.ejs',{name: ""});
+//             }
+//         })
+//     }
+// });
+
+
 // Display route
 app.get('/displayPage',function(req,res){
 	res.render('display.ejs');
@@ -139,7 +168,7 @@ app.get('/authenticate', cas.bounce, function(req,res){
 	usersref.orderByChild("user").equalTo(username).once("value", function(data){
 		if(data.numChildren() === 0) {
 			var userskeyref = usersref.push();
-			userskeyref.set({				
+			userskeyref.set({
 				admin: false,
 				createdat: admin.database.ServerValue.TIMESTAMP,
 				key: userskeyref.key,
@@ -147,7 +176,7 @@ app.get('/authenticate', cas.bounce, function(req,res){
 				user: username
 			});
 		}
-		return res.redirect('/profile');
+		return res.redirect('/home');
 	});
 });
 // CAS Log Out
@@ -207,7 +236,7 @@ app.get('/reserve',validateAccess,function(req,res){
 				});
 			}
 		});
-		
+
 	}
 	return res.status(200).json({success:true,message:"Successfully reserved room."});
 });

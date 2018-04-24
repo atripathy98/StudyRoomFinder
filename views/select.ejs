@@ -72,16 +72,18 @@
                         <th>Room number</th>
                         <th>Location</th>
                         <th>Floor Plan</th>
+                        <th>Max Seats</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>401</td>
-                        <td>Library</td>
+                    <tr ng-repeat = "room in rooms">
+                        <td >{{room.roomkey}}</td>
+                        <td>{{room.roomnum}}</td>
+                        <td>{{room.lockey}}</td>
                         <td><a href="#">Floor Plan</a> </td>
-                        <td><a href="timeslot.html">Reserve</a></td>
+                        <td>{{room.maxseats}}</td>
+                        <td><a ng-click = "Choose(room.roomkey, room.roomnum, room.lockey)">Reserve</a></td>
                     </tr>
                     <!-- using angualar etc. later for more information -->
                 </tbody>
