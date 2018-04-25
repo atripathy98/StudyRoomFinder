@@ -123,9 +123,8 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
 app.controller("selectController", function($scope, $http, $location, myFactory) {
     //$scope.rooms = myFactory.getRoomList();
     $scope.rooms = myFactory.getRoomList();
-    $scope.reserveRoom = function(lockey, roomkey){
-        var chosenRoom = [lockey,roomkey];
-        myFactory.setRoom(chosenRoom);
+    $scope.reserveRoom = function(room){
+        myFactory.setRoom(room);
         // request the reservation data of that rooms
         // TODO!
         // CAUSING SOME TRANSITION OCCUR
@@ -198,8 +197,9 @@ app.controller("slotController", function($scope, $http, $location, myFactory){
     var currentdate = new Date();
     $scope.date = currentdate.toLocaleDateString("en-US");
 
-
-    /*$scope.datesx = [$scope.date.setDate($scope.date.getDate()),$scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1)];
+    var tb = new Date();
+    $scope.datesx = [tb.setDate(tb.getDate()),tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1)];
+    console.log($scope.datesx);
 
     $scope.currSelect = null;
 
@@ -218,13 +218,20 @@ app.controller("slotController", function($scope, $http, $location, myFactory){
         // slot num, date num
         var ndate = parseInt($scope.currSelect.split('-')[1]);
         var nslot = parseInt($scope.currSelect.split('-')[0]);
-        var day = new Date();
-        day = day.setDate(day.getDate()+ndate);
-        var chosenTime = [ndate,nslot,day]
+        var day = $scope.datesx[ndate];
+        var params = {};
+        params.date = day;
+        params.slot = nslot;
+        // params.day = day;
+        if ($scope.duration <= 4)
+            params.duration = parseInt($scope.duration);
+        else
+            params.duration = 2;
+        // var chosenTime = [ndate,nslot,day,$scope.duration]
 
-        myFactory.setDate(chosenTime);
+        myFactory.setDate(params);
 
-        console.log("chosen date " + myFactory.getDate());
+        console.log(myFactory.getDate());
         // console.log(chosenTime);
 
     }
@@ -241,39 +248,44 @@ app.controller("slotController", function($scope, $http, $location, myFactory){
     $scope.Back = function() {
         myFactory.resetRoom();
         $location.path("/selectRoom");
-    }*/
+    }
 });
 
-app.controller("confirmController", function($scope, $http, $location, myFactory) {
+app.controller("confirmController", function($scope, $http, $location, myFactory, $filter) {
     // $scope.today = new Date();
     // $scope.time = $scope.today.setDate($scope.today.getDate()+parseInt(myFactory.getDate[1]))
     $scope.room = myFactory.getRoom();
     $scope.time = myFactory.getDate();
+    console.log($scope.room)
+    console.log($scope.time)
+
+    $scope.getEndTime = function() {
+        return $scope.time.slot + $scope.time.duration;
+    }
     $scope.Success = function() {
+        var date = $filter('date')($scope.time.date, "MM/dd/yyyy");
+        var data = {'locationkey': $scope.room.lockey, 'roomkey': $scope.room.roomkey, 'timeslot':$scope.time.slot, 'date': date, 'duration':$scope.time.duration};
         $http({
             method: 'GET',
             url: '/reserve',
-            params: {'locationkey': $scope.room[2], 'roomkey': $scope.room[0], 'timeslot':$scope.time[1], 'date': $scope.time[0]}
+            params: data
         }).then(function(res){
             $location.path("/success");
-        })
-        // console.log(myFactory.getDate());
-        // console.log(myFactory.getRoom());
-        $location.path("/success");
-    }
+        });
+    };
 
 
     $scope.Slot = function() {
         myFactory.resetDate();
         $location.path("/timeSlot");
-    }
-})
+    };
+});
 
 app.controller("successController", function($scope, $location) {
     $scope.BackHome = function() {
         $location.path("/user");
-    }
-})
+    };
+});
 
 
 app.filter('modifyTime', function() {

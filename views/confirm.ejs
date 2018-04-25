@@ -53,10 +53,10 @@
 
     </div>
     <div class = "row">
-        <p>{{room[2]}} - Room {{room[1]}}</p>
+        <p>{{room.locname}} - Room {{room.roomnum}}</p>
     </div>
     <div class = "row">
-        <p>{{time[1]*2}}:00 - {{(time[1]+1)*2}}:00</p>
+        <p>Time slot: {{time.slot}}:00 - {{getEndTime()}}:00 at {{time.date | date:"MM/dd/yyyy"}}</p>
     </div>
     <div class = "row">
         <div class = "fourteen wide column">
