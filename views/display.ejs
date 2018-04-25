@@ -59,6 +59,12 @@
         <button type="submit" class="btn btn-block">Submit</button>
       </form>
 
+      <form ng-submit="confirm()">
+        <select>
+          <option ng-repeat="room in rooms" ng-model="formData.room">{{room.roomname}}</option>
+        </select>
+      </form>
+
 
     </div>
     <script src="/js/jquery.min.js"></script>

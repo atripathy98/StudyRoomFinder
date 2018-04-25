@@ -55,7 +55,6 @@ function validateAccess(req,res,next){
 			var userkey = Object.keys(data)[0];
 			req.username = username;
 			req.admin = data[userkey]["admin"];
-			req.success = true;
 			return next();
 		});
 	}else if(req.query && req.query.apikey){
@@ -68,12 +67,12 @@ function validateAccess(req,res,next){
 					var data = snapshot.val();
 					req.username = data[userkey]["user"];
 					req.admin = data[userkey]["admin"];
-					req.success = true;
 					return next();
 				});
+			}else{
+				return res.status(401).json({success:false,message:"Invalid API Key provided or missing. Make sure to pass your key to 'apikey'."});
 			}
 		});
-		return res.status(401).json({success:false,message:"Invalid API Key provided or missing. Make sure to pass your key to 'apikey'."});
 	}else{
 		return res.status(401).json({success:false,message:"Unauthorized API calls."});
 	}
@@ -82,11 +81,16 @@ function validateAccess(req,res,next){
 // Checking if active session is available for web application
 function requireActiveSession(req,res,next){
 	if(req.session && req.session[cas.session_name]){
-		return next();
+		var username = req.session[cas.session_name];
+		usersref.orderByChild("user").equalTo(username).once("value", function(snapshot){
+			var data = snapshot.val();
+			req.userkey = Object.keys(data)[0];
+			req.name = data[req.userkey]["name"];
+			req.admin = data[req.userkey]["admin"];
+			return next();
+		});
 	}else{
-		var err = new Error("Must be logged in using CAS to view this page.");
-		err.status = 401;
-		return next(err);
+		return res.redirect('/authenticate');
 	}
 }
 
@@ -97,55 +101,30 @@ app.get('/',function(req,res){
 });
 // Profile Route
 app.get('/home',requireActiveSession,function(req,res){
-	var username = req.session[cas.session_name];
-	usersref.orderByChild("user").equalTo(username).once("value", function(snapshot){
-		var data = snapshot.val();
-		var key = Object.keys(data)[0];
-		var name = data[key]["name"];
-		if(req.query && req.query.name){
-			// If name has been sent
-			var dbparams = {};
-			var dbendpoint = key + "/name";
-			dbparams[dbendpoint] = req.query.name;
-			usersref.update(dbparams);
-			return res.render('home.ejs',{name: dbparams[dbendpoint]});
-		}else if(name === ""){
-			// If name has not been set
-			return res.render('setup.ejs');
-		}else{
-			// User profile created
-			return res.render('home.ejs',{name: name});
-		}
-	});
+	if(req.query && req.query.name){
+		// If name has been sent
+		var dbparams = {};
+		var dbendpoint = req.userkey + "/name";
+		dbparams[dbendpoint] = req.query.name;
+		usersref.update(dbparams);
+		return res.render('home.ejs',{name: dbparams[dbendpoint]});
+	}else if(req.name === ""){
+		// If name has not been set
+		return res.render('setup.ejs');
+	}else{
+		// User profile created
+		return res.render('home.ejs',{name: req.name});
+	}
 });
 
-// app.get('/home',function(req,res){
-// 	// Initial profile creation (get name)
-// 	if(req.session.profilestatus == 0){
-// 		req.session.profilestatus++;
-// 		res.render('setup.ejs',{user: req.session.username});
-// 	// Update Firebase (set name)
-// 	} else if(req.session.profilestatus == 1){
-// 		req.session.profilestatus++;
-// 		var data = {};
-// 		var key = req.session.sessionkey + "/name";
-// 		data[key] = req.query.name;
-// 		usersref.update(data);
-// 		res.render('home.ejs',{name: data[key]});
-// 	// Render profile page
-// 	} else{
-// 		var userchild = usersref.child("/"+req.session.sessionkey);
-// 		userchild.once("value", function(data){
-// 			var userinfo = data.val();
-//             if (userinfo) {
-//                 res.render('home.ejs',{name: userinfo["name"]});
-//             } else {
-//                 res.render('home.ejs',{name: ""});
-//             }
-//         })
-//     }
-// });
-
+// Admin route
+app.get('/admin', requireActiveSession, function(req, res) {
+	if(!req.admin){
+		return res.redirect("/home");
+	}else{
+		res.render('admin.ejs',{name: req.name});
+	}
+});
 
 // Display route
 app.get('/displayPage',function(req,res){
@@ -192,18 +171,22 @@ app.get('/logout', cas.logout);
  * ---------------------------------------
  */
 app.get('/reserve',validateAccess,function(req,res){
-	if(!req.success){
-		return res.status(401).json({success:false,message:"Failed to retrieve user info."});
-	}else if( !(req.query && req.query.locationkey && req.query.roomkey && req.query.timeslot && req.query.date && req.query.roomkey) ){
+	if( !(req.query && req.query.locationkey && req.query.roomkey && req.query.timeslot && req.query.date && req.query.roomkey) ){
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		var dt = {
 			time: parseInt(req.query.timeslot),
 			date: req.query.date
 		};
-		var linkkey = "/" + req.query.locationkey + "/rooms/" + req.query.roomkey;
+		var response = {};
+		response["lockey"] = req.query.locationkey;
+		response["roomkey"] = req.query.roomkey;
+		var linkkey = "/" + response["lockey"] + "/rooms/" + response["roomkey"];
 		var locationChild = locationsref.child(linkkey);
 		locationChild.once("value", function(lsnapshot){
+			reservationref.orderByChild("roomkey").equalTo(response["roomkey"]).once("value", function(rsnap){
+
+			});
 			if(lsnapshot.numChildren() === 0){
 				// Failure response
 				return res.status(404).json({success:false,message:"Specified location not found."});
@@ -227,7 +210,8 @@ app.get('/reserve',validateAccess,function(req,res){
 			 				lockey: req.query.locationkey,
 			 				roomkey: req.query.roomkey,
 			 				user: req.username,
-			 				datetime: dt
+			 				datetime: dt,
+			 				status: 1
 			 			});
 					}else{
 						// Failure response
@@ -241,12 +225,8 @@ app.get('/reserve',validateAccess,function(req,res){
 	return res.status(200).json({success:true,message:"Successfully reserved room."});
 });
 
-/* ---------------------------------------
- * NAME
- * /getLocations
- * DESCRIPTION
- * Returns JSON response containing locations
- * ---------------------------------------
+/* NAME: /getAllRooms
+ * DESCRIPTION: Returns all rooms
  */
 app.get('/getAllRooms',validateAccess,function(req,res){
 	locationsref.once("value", function(snapshot){
@@ -256,6 +236,7 @@ app.get('/getAllRooms',validateAccess,function(req,res){
 	 		var val = data.val();
 			for(var roomkey in val["rooms"]){
 		        var roominfo = {};
+		        roominfo["locname"] = val["name"];
 		        roominfo["lockey"] = lockey;
 		        roominfo["roomkey"] = roomkey;
 		        roominfo["maxseats"] = val["rooms"][roomkey]["maxseats"];
@@ -267,37 +248,121 @@ app.get('/getAllRooms',validateAccess,function(req,res){
 	});
 });
 
-/* ---------------------------------------
- * NAME
- * /getReservations
- * DESCRIPTION
- * Returns JSON response containing provided users reservations
- * ---------------------------------------
+/* NAME: /getRoomSlotsByDate
+ * DESCRIPTION: Returns room slots for each hour of date requested
+ */
+app.get('/getRoomSlotsByDate',validateAccess,function(req,res){
+	if( !(req.query && req.query.locationkey && req.query.roomkey && req.query.date) ){
+		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
+	}else{
+		var response = {};
+		var requesteddate = new Date(req.query.date);
+		var currentdate = new Date();
+		response["lockey"] = req.query.locationkey;
+		response["roomkey"] = req.query.roomkey;
+		response["requestedat"] = Math.round(currentdate.valueOf()/1000);
+		response["requesteddate"] = requesteddate.toLocaleDateString("en-US");
+		response["available"] = [];
+		var roomchild = locationsref.child("/"+response["lockey"]+"/rooms/"+response["roomkey"]);
+		roomchild.once("value", function(snapshot){
+			reservationref.orderByChild("roomkey").equalTo(response["roomkey"]).once("value", function(rsnap){
+				var roomdata = snapshot.val();
+				var openhour = roomdata["open"];
+				var closehour = roomdata["close"];
+				response["maxseats"] = roomdata["maxseats"];
+				var starthour = 0;
+				// Check if date requested is today
+				if((currentdate - requesteddate) >= 86400000){
+					response["success"] = false;
+					response["message"] = "Available slots of past dates cannot be retrieved.";
+					return res.status(200).json(response);
+				}else if(requesteddate.getMonth() == currentdate.getMonth() && requesteddate.getDate() == currentdate.getDate() && requesteddate.getYear() == currentdate.getYear()){
+					starthour = currentdate.getHours();
+				}
+				starthour = Math.max(openhour,starthour);
+				for(var i = starthour;i<closehour;i++){
+					var slot = {};
+					slot["time"] = i;
+					slot["seatsleft"] = response["maxseats"];
+					response["available"].push(slot);
+				}
+				rsnap.forEach(function(data){
+					var val = data.val();
+					if(val["status"] === 1 && val["datetime"]["date"] === response["requesteddate"] && val["datetime"]["time"] >= starthour){
+						var duration = val["duration"];
+						for(var i = 0;i<duration;i++){
+							var index = val["datetime"]["time"] - starthour + i;
+							response["available"][index]["seatsleft"]--;
+						}
+					}
+				});
+				response["success"] = true;
+				return res.status(200).json(response);
+			});
+		});
+	}
+});
+
+/* NAME: /getReservations
+ * DESCRIPTION: Returns reservations for requested user
  */
 app.get('/getReservations',validateAccess,function(req,res){
-	reservationref.orderByChild("user").equalTo(req.username).once("value", function(snapshot){
-		var reservations = [];
- 		snapshot.forEach(function(data) {
-	 		var val = data.val();
-			val["key"] = data.key;
-			reservations.push(val);
+	var response = {};
+	response["user"] = req.username;
+	response["reservations"] = [];
+	reservationref.orderByChild("user").equalTo(response["user"]).once("value", function(snapshot){
+		locationsref.once("value", function(lsnap){
+			var loc_table = lsnap.val();
+			snapshot.forEach(function(data){
+	 			var reservation = {};
+		 		var val = data.val();
+		 		reservation["key"] = data.key;
+		 		reservation["name"] = loc_table[val["lockey"]]["name"];
+		 		reservation["roomnum"] = loc_table[val["lockey"]]["rooms"][val["roomkey"]]["roomnum"];
+		 		reservation["duration"] = val["duration"];
+		 		reservation["date"] = val["datetime"]["date"];
+		 		reservation["starttime"] = val["datetime"]["time"];
+		 		reservation["status"] = val["status"];
+				response["reservations"].push(reservation);
+			});
+			response["success"] = true;
+			return res.status(200).json(response);
 		});
-		return res.status(200).json({success:true,data:reservations});
 	});
 });
 
+/* NAME: /cancelReservation
+ * DESCRIPTION: Cancels the specified reservation via key
+ */
+app.get('/cancelReservation',validateAccess,function(req,res){
+	if( !(req.query && req.query.key) ){
+		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
+	}else{
+		var response = {};
+		response["key"] = req.query.key;
+		reservationref.orderByKey().equalTo(response["key"]).once("value", function(snapshot){
+			if(snapshot.numChildren() === 0){
+				response["success"] = false;
+				response["message"] = "Requested reservation does not exist.";
+				return res.status(200).json(response);
+			}else{
+				var dbparams = {};
+				var dbendpoint = response["key"] + "/status";
+				dbparams[dbendpoint] = 0;
+				reservationref.update(dbparams);
+				response["success"] = true;
+				return res.status(200).json(response);
+			}
+		});
+	}
+});
+
 /* ADMIN PRIVILEGE API CALLS */
-/* ---------------------------------------
- * NAME
- * /addLocation
- * DESCRIPTION
- * Add a new location
- * ---------------------------------------
+/* NAME: /addLocation
+ * DESCRIPTION: Add a new location
  */
 app.get('/addLocation',validateAccess,function(req,res){
-	if(!req.success || !req.admin){
-		return res.status(401).json({success:false,message:"Failed to retrieve user info or user does not have the proper privileges."});
-	}else if( !(req.query && req.query.name && req.query.floorplan) ){
+	if( !(req.query && req.query.name && req.query.floorplan) ){
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		// Push to Firebase
@@ -312,17 +377,11 @@ app.get('/addLocation',validateAccess,function(req,res){
 	}
 });
 
-/* ---------------------------------------
- * NAME
- * /addRoom
- * DESCRIPTION
- * Add a new room to an existing location
- * ---------------------------------------
+/* NAME: /addRoom
+ * DESCRIPTION: Add a new room to an existing location
  */
 app.get('/addRoom',validateAccess,function(req,res){
-	if(!req.success || !req.admin){
-		return res.status(401).json({success:false,message:"Failed to retrieve user info or user does not have the proper privileges."});
-	}else if( !(req.query && req.query.locationkey && req.query.floorplan && req.query.maxseats && req.query.roomnum) ){
+	if( !(req.query && req.query.locationkey && req.query.floorplan && req.query.maxseats && req.query.roomnum) ){
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		var locationkey = req.query.locationkey;
@@ -343,7 +402,9 @@ app.get('/addRoom',validateAccess,function(req,res){
 				var roomkeyref = roomChild.push();
 				roomkeyref.set({
 					"maxseats": parseInt(req.query.maxseats),
-					"roomnum": req.query.roomnum
+					"roomnum": req.query.roomnum,
+					"open": req.query.openhour,
+					"close": req.query.closehour
 				});
 				return res.status(200).json({success:true,data:roomkeyref});
 			}
@@ -372,17 +433,9 @@ app.get('/sus', function(req, res) {
     res.render('success.ejs')
 });
 
-/*// TODO need to remove it if authenticated part completed.
-EDITED AND ADDED SECTION ABOVE
-app.get('/admin', function(req, res) {
-    var userchild = usersref.child("/"+req.session.sessionkey);
-    userchild.once("value", function(data){
-        var userinfo = data.val();
-        res.render('admin.ejs',{name: userinfo["name"]});
-    });
-    // res.render('admin.ejs',{name: userinfo["name"]});
-});
-*/
+// TODO need to remove it if authenticated part completed.
+//EDITED AND ADDED SECTION ABOVE
+
 
 app.get("/adrom", function(req, res) {
     res.render('newroom.ejs');
