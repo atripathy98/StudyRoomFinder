@@ -19,7 +19,7 @@
                         Select Time Slot
                     </div>
                     <div class = "description">
-                        Choose a maximum 2-hour slot
+                        Choose a maximum 4-hour slot
                     </div>
                 </div>
             </div>
@@ -48,39 +48,36 @@
         </div>
     </div>
 
-    <div class = "row">
-        <div class = "four wide column">
+    <div class = "centered row">
             <form action="" class = "ui form">
                 <div class = "field">
-                    <input type="text" placeholder="Enter Date">
+                    <label for="duration">Duration(hours)</label>
+                    <input type="text" placeholder="2 by default" ng-model="duration">
                 </div>
-                <div class = "field">
-                    <input type="text" placeholder="Start Time">
-                </div>
-                <div class = "field">
-                    <input type="text" placeholder="End Time">
-                </div>
-                <!-- <button class = "ui button">Filter</button> -->
             </form>
-        </div>
-        <div class = "ten wide column">
-            <table class="ui celled table" timetable = "timetable">
-              <thead>
-                <tr>
-                      <th></th>
-                      <th ng-repeat = "n in datesx">{{n | date}}</th>
-                </tr>
-             </thead>
-                <tr ng-repeat="n in [] | range:12">
-                    <th>{{n*2}}:00</th>
-                    <td ng-repeat="m in [] | range:7" class = "selectable slots" id = "{{n}}-{{m}}" name = "{{n}}-{{m}}" ng-click="chooseTime($event)"></td>
-                </tr>
-              <tbody>
-
-              </tbody>
-            </table>
-        </div>
     </div>
+
+    <div class = "centered row">
+        <table class="ui celled table" timetable = "timetable">
+            <legend class = "ui header">Choose Start Time</legend>
+          <thead>
+            <tr>
+                  <th></th>
+                  <!-- <th ng-repeat = "n in datesx">{{n | date}}</th> -->
+                  <th ng-repeat="n in datesx">{{ n | date: 'MM/dd/yyyy'}}</th>
+            </tr>
+         </thead>
+            <tr ng-repeat="n in [] | range:24">
+                <th>{{n}}:00</th>
+                <td ng-repeat="m in [] | range:7" class = "selectable slots" id = "{{n}}-{{m}}" name = "{{n}}-{{m}}" ng-click="chooseTime($event)"></td>
+            </tr>
+          <tbody>
+
+          </tbody>
+        </table>
+    </div>
+
+
 
     <div class = "row">
         <div class = "fourteen wide column">
