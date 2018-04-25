@@ -309,7 +309,9 @@ app.get('/getRoomSlotsByDate',validateAccess,function(req,res){
 app.get('/getReservations',validateAccess,function(req,res){
 	var response = {};
 	response["user"] = req.username;
-	response["reservations"] = [];
+	response["oreservations"] = [];
+	response["freservations"] = [];
+	var currentdate = new Date();
 	reservationref.orderByChild("user").equalTo(response["user"]).once("value", function(snapshot){
 		locationsref.once("value", function(lsnap){
 			var loc_table = lsnap.val();
@@ -323,7 +325,21 @@ app.get('/getReservations',validateAccess,function(req,res){
 		 		reservation["date"] = val["datetime"]["date"];
 		 		reservation["starttime"] = val["datetime"]["time"];
 		 		reservation["status"] = val["status"];
-				response["reservations"].push(reservation);
+		 		var requesteddate = new Date(reservation["date"]);
+		 		requesteddate.setHours(reservation["starttime"]);
+		 		if((currentdate - requesteddate) > 0){
+		 			if(reservation["status"] == 1){
+		 				reservation["status"] = 2;
+		 				var dbparams = {};
+						var dbendpoint = reservation["key"] + "/status";
+						dbparams[dbendpoint] = 2;
+						reservationref.update(dbparams);
+		 			}
+		 			response["oreservations"].push(reservation);
+		 		}else{
+		 			response["freservations"].push(reservation);
+		 		}
+				
 			});
 			response["success"] = true;
 			return res.status(200).json(response);

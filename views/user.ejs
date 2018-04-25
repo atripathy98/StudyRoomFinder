@@ -1,53 +1,56 @@
 
 <div class="ui centered grid sub-page" ng-controller = "userController">
     <div class = "sixteen wide column">
-        <button class = "ui button" ng-click = "newReserv()">create new reservations<button>
+        <button class = "ui button" ng-click="newReserv()">Make reservation</button>
     </div>
-    <h3>Reservation History</h3>
+    <h3>Future Reservations</h3>
     <table class = "ui definition table">
         <thead>
             <tr>
                 <th></th>
-                <th>Room</th>
-                <th>Start</th>
+                <th>Location</th>
+                <th>Room #</th>
+                <th>Scheduled Date</th>
                 <th>Duration</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat = "reservation in reservs">
-                <td>{{reservation.key}}</td>
-                <td>{{reservation.roomNum}}</td>
-                <td>2pm, Feb 25th, 2018</td>
-                <td>2 hour </td>
-                <td>Not completed</td>
-                <td><a href="#">Cancel</a></td>
+            <tr ng-repeat = "reservation in freservs track by $index">
+                <td>{{$index + 1}}</td>
+                <td>{{reservation.name}}</td>
+                <td>{{reservation.roomnum}}</td>
+                <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
+                <td>{{reservation.duration}} hrs</td>
+                <td>{{reservation.status | modifyStatus}}</td>
+                <td><a ng-href="/cancel?key={{reservation.key}}">Cancel</a></td>
             </tr>
-            <!-- using angualar etc. later for more information -->
         </tbody>
     </table>
-    <!-- <h3>Past Reservations</h3>
+    <h3>Past Reservations</h3>
     <table class = "ui definition table">
         <thead>
             <tr>
                 <th></th>
-                <th>Room</th>
-                <th>Start</th>
+                <th>Location</th>
+                <th>Room #</th>
+                <th>Scheduled Date</th>
                 <th>Duration</th>
-                <th></th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>401</td>
-                <td>2pm, Feb 25th, 2018</td>
-                <td>2 hour </td>
-                <td></td>
-                <td>Cancelled</td>
+            <tr ng-repeat = "reservation in oreservs track by $index">
+                <td>{{$index + 1}}</td>
+                <td>{{reservation.name}}</td>
+                <td>{{reservation.roomnum}}</td>
+                <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
+                <td>{{reservation.duration}} hrs</td>
+                <td>{{reservation.status | modifyStatus}}</td>
+                <td><a ng-href="/cancel?key={{reservation.key}}">Cancel</a></td>
             </tr>
         </tbody>
-    </table> -->
+    </table>
 </div>
