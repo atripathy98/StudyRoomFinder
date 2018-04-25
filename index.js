@@ -171,58 +171,105 @@ app.get('/logout', cas.logout);
  * ---------------------------------------
  */
 app.get('/reserve',validateAccess,function(req,res){
-	if( !(req.query && req.query.locationkey && req.query.roomkey && req.query.timeslot && req.query.date && req.query.roomkey) ){
+	if( !(req.query && req.query.locationkey && req.query.roomkey && req.query.timeslot && req.query.date && req.query.duration) ){
+		console.log(req.query);
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
+		var response = {};
 		var dt = {
 			time: parseInt(req.query.timeslot),
 			date: req.query.date
 		};
-		var response = {};
+		var requesteddate = new Date(req.query.date);
 		response["lockey"] = req.query.locationkey;
 		response["roomkey"] = req.query.roomkey;
+		response["user"] = req.username;
 		var linkkey = "/" + response["lockey"] + "/rooms/" + response["roomkey"];
 		var locationChild = locationsref.child(linkkey);
-		locationChild.once("value", function(lsnapshot){
-			reservationref.orderByChild("roomkey").equalTo(response["roomkey"]).once("value", function(rsnap){
-
-			});
-			if(lsnapshot.numChildren() === 0){
+		locationChild.once("value", function(lsnap){
+			if(lsnap.numChildren() === 0){
 				// Failure response
-				return res.status(404).json({success:false,message:"Specified location not found."});
+				response["success"] = false;
+				response["message"] = "Specified room was not found.";
+				return res.status(404).json(response);
 			}else{
-				var ldata = lsnapshot.val();
-				var maxseats = ldata["maxseats"];
-				reservationref.once("value", function(snapshot){
-			 		var spotsfilled = 0;
-			 		snapshot.forEach(function(data) {
-			 			var tmp = data.val();
-			 			// Check if date + time + roomkey + lockey match
-						if(tmp["datetime"]["date"] == dt.date && tmp["datetime"]["time"] == dt.time && req.query.roomkey == tmp["roomkey"] && req.query.locationkey == tmp["lockey"]){
-							spotsfilled++;
+				var val = lsnap.val();
+				var openhour = val["open"];
+				var closehour = val["close"];
+				var maxseats = val["maxseats"];
+				var duration = parseInt(req.query.duration);
+				var starttime = parseInt(req.query.timeslot);
+				var currentdate = new Date();
+				requesteddate.setHours(starttime);
+				if((currentdate - requesteddate) > 0){
+					response["success"] = false;
+					response["message"] = "Reservations cannot be made for the past.";
+					return res.status(200).json(response);
+				}else if(starttime < openhour || starttime >= closehour){
+					response["success"] = false;
+					response["message"] = "Requested room is not open at this time.";
+					return res.status(200).json(response);
+				}else{
+					reservationref.orderByChild("roomkey").equalTo(response["roomkey"]).once("value", function(rsnap){
+						var seats = [];
+						var overlap = false;
+						var userhours = 0;
+						while(duration + starttime > 24){
+							duration--;
 						}
-						if(spotsfilled === maxseats){
-							return;
+						for(var i=0;i<duration;i++){
+							seats.push(maxseats);
+						}
+						rsnap.forEach(function(obj){
+							var rdata = obj.val();
+							if(rdata["status"] == 1 && rdata["datetime"]["date"] == req.query.date){
+								var rstart = rdata["datetime"]["time"];
+								var rduration = rdata["duration"];
+								for(var i=0;i<rduration;i++){
+									if(rstart + i >= starttime && rstart + i < starttime + duration){
+										if(response["user"] === rdata["user"]){
+											overlap = true;
+											return;
+										}
+										seats[rstart+i-starttime]--;
+									}
+								}
+								if(response["user"] === rdata["user"]){
+									userhours += rduration;
+								}
+							}
+						});
+						if(overlap){
+							response["success"] = false;
+							response["message"] = "Requested time slot overlaps with a concurrent reservation.";
+							return res.status(200).json(response);
+						}else if(userhours >= 4){
+							response["success"] = false;
+							response["message"] = "User has reached the maximum hour limit per day.";
+							return res.status(200).json(response);
+						}else if(seats.includes(0)){
+							response["success"] = false;
+							response["message"] = "Cannot reserve this timeframe.";
+							return res.status(200).json(response);
+						}else{
+							reservationref.push().set({
+				 				lockey: response["lockey"],
+				 				roomkey: response["roomkey"],
+				 				user: req.username,
+				 				datetime: dt,
+				 				status: 1,
+				 				duration: duration
+				 			});
+							response["success"] = true;
+							response["message"] = "Room has been reserved.";
+				 			return res.status(200).json(response);
 						}
 					});
-					if(spotsfilled < maxseats){
-						reservationref.push().set({
-			 				lockey: req.query.locationkey,
-			 				roomkey: req.query.roomkey,
-			 				user: req.username,
-			 				datetime: dt,
-			 				status: 1
-			 			});
-					}else{
-						// Failure response
-						return res.status(200).json({success:false,message:"Room has already been taken."});
-					}
-				});
+				}
 			}
+			
 		});
-
 	}
-	return res.status(200).json({success:true,message:"Successfully reserved room."});
 });
 
 /* NAME: /getAllRooms
