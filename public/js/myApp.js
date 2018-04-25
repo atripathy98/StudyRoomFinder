@@ -184,6 +184,16 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
             $scope.form3Data = {};
         });
     }
+    $scope.cancel = function(resKey){
+        $http({
+            method:'GET',
+            url:'/cancelReservation',
+            params: {key: resKey}
+        }).then(function(res) {
+            $scope.form3Data = {};
+            $scope.getAllReservations();
+        });
+    }
     $scope.getArray = function(n) {
         return new Array(n);
     };
@@ -336,12 +346,13 @@ app.filter('modifyDate', function() {
 
 app.filter('modifyStatus', function() {
   return function(status) {
-    if(status == 1){
+    if(status === 1){
         return "Scheduled";
-    }else if(status == 2){
+    }else if(status === 2){
         return "Completed";
+    }else{
+        return "Cancelled";
     }
-    return "Cancelled";
   }
 });
 

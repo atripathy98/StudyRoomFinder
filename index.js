@@ -392,7 +392,7 @@ app.get('/getReservations',validateAccess,function(req,res){
 		 		reservation["starttime"] = val["datetime"]["time"];
 		 		reservation["status"] = val["status"];
 		 		var requesteddate = new Date(reservation["date"]);
-		 		requesteddate.setHours(reservation["starttime"]);
+		 		requesteddate.setHours(reservation["starttime"]+reservation["duration"]);
 		 		if((currentdate - requesteddate) > 0){
 		 			if(reservation["status"] == 1){
 		 				reservation["status"] = 2;
@@ -457,7 +457,7 @@ app.get('/getAllReservations',validateAccess,function(req,res){
 				snapshot.forEach(function(data){
 		 			var reservation = {};
 			 		var val = data.val();
-			 		reservation["user"] = req.username;
+			 		reservation["user"] = val["user"];
 			 		reservation["key"] = data.key;
 			 		reservation["name"] = loc_table[val["lockey"]]["name"];
 			 		reservation["roomnum"] = loc_table[val["lockey"]]["rooms"][val["roomkey"]]["roomnum"];
@@ -466,7 +466,7 @@ app.get('/getAllReservations',validateAccess,function(req,res){
 			 		reservation["starttime"] = val["datetime"]["time"];
 			 		reservation["status"] = val["status"];
 			 		var requesteddate = new Date(reservation["date"]);
-			 		requesteddate.setHours(reservation["starttime"]);
+			 		requesteddate.setHours(reservation["starttime"]+reservation["duration"]);
 			 		if((currentdate - requesteddate) > 0){
 			 			if(reservation["status"] == 1){
 			 				reservation["status"] = 2;

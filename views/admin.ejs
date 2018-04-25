@@ -93,7 +93,7 @@
                             <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
                             <td>{{reservation.duration}} hrs</td>
                             <td>{{reservation.status | modifyStatus}}</td>
-                            <td><a ng-href="/cancel?key={{reservation.key}}">Cancel</a></td>
+                            <td><a ng-href="#" ng-click="cancel(reservation.key)">Cancel</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,7 +123,7 @@
                             <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
                             <td>{{reservation.duration}} hrs</td>
                             <td>{{reservation.status | modifyStatus}}</td>
-                            <td><a ng-href="/cancel?key={{reservation.key}}">Cancel</a></td>
+                            <td><a ng-href="#" ng-click="cancel(reservation.key)">Cancel</a></td>
                         </tr>
                     </tbody>
                 </table>
