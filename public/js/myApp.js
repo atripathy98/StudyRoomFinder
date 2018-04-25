@@ -2,7 +2,7 @@ var app = angular.module('roomFinder', ['ui.router']);
 
 // ------ config ui router -> allow pages to contain subpages
 app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/user')
+    $urlRouterProvider.otherwise('/user');
     $stateProvider
     .state('/user', {
         url:'/user',
@@ -14,7 +14,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('/timeSlot', {
         url: '/timeSlot',
-        templateUrl: '/ts'
+        templateUrl: '/timeSlot'
     })
     .state('/confirm', {
         url: '/confirm',
@@ -23,8 +23,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('/success', {
         url: '/success',
         templateUrl: '/sus'
-    })
-})
+    });
+});
 
 // ------ factory -> store data in the same app and let data available within different controllers
 app.factory("myFactory", function() {
@@ -114,45 +114,32 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
             // store the list
             myFactory.setRoomList(res.data.data);
             $location.path("/select");
-        })
+        });
     }
     $scope.loadResev();
 })
 
 // select page allow user to select rooms
-app.controller("selectController", function($scope, $http, $location, myFactory, $firebaseObject) {
-    // $scope.loc = {
-    //     location: "",
-    //     room: "",
-    //     num: 0
-    // }
+app.controller("selectController", function($scope, $http, $location, myFactory) {
+    //$scope.rooms = myFactory.getRoomList();
     $scope.rooms = myFactory.getRoomList();
-    $scope.Search = function(room) {
-        // myFactory.setRoom($scope.loc);
-        // // TODO request data from database
-        // $http£¨{
-        //     method: 'GET',
-        //     url: '/locations'
-        // }).then(function(res) {
-        //     // TODO: show the list of data
-        //     //
-        //     // $scope.rooms = res.data ?
-        // })
-        $location.path("/timeSlot");
-    }
-    $scope.Choose = function(roomkey, roomnum, lockey) {
-        var chosenRoom = [roomkey, roomnum, lockey];
+    $scope.reserveRoom = function(lockey, roomkey) {
+        var chosenRoom = [lockey,roomkey];
         myFactory.setRoom(chosenRoom);
         // request the reservation data of that rooms
         // TODO!
+        // CAUSING SOME TRANSITION OCCUR
         $location.path("/timeSlot");
     }
-})
+});
 
 // timeslot choosing
-app.controller("slotController", function($scope, $http, $location, myFactory) {
-    $scope.date = new Date();
-    $scope.datesx = [$scope.date.setDate($scope.date.getDate()),$scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1)];
+app.controller("slotController", function($scope, $http, $location, myFactory){
+    var currentdate = new Date();
+    $scope.date = currentdate.toLocaleDateString("en-US");
+
+
+    /*$scope.datesx = [$scope.date.setDate($scope.date.getDate()),$scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1), $scope.date.setDate($scope.date.getDate()+1)];
 
     $scope.currSelect = null;
 
@@ -194,8 +181,8 @@ app.controller("slotController", function($scope, $http, $location, myFactory) {
     $scope.Back = function() {
         myFactory.resetRoom();
         $location.path("/selectRoom");
-    }
-})
+    }*/
+});
 
 app.controller("confirmController", function($scope, $http, $location, myFactory) {
     // $scope.today = new Date();
@@ -283,5 +270,28 @@ app.filter('modifyStatus', function() {
         return "Completed";
     }
     return "Cancelled";
+  }
+});
+
+app.filter('filterRoomSearch', function() {
+  return function(data,locname,roomnum,capacity){
+    var ndata = [];
+    if(locname == undefined){
+        locname = "";
+    }
+    if(roomnum == undefined){
+        roomnum = "";
+    }
+    if(capacity == undefined || isNaN(capacity)){
+        capacity = 0;
+    }
+    data.forEach(function(value){
+        if(value["locname"].toLowerCase().includes(locname.toLowerCase()) &&
+           value["roomnum"].toLowerCase().includes(roomnum.toLowerCase()) &&
+           value["maxseats"] >= capacity){
+            ndata.push(value);
+        }
+    });
+    return ndata;
   }
 });

@@ -50,42 +50,43 @@
 
 
     <div class = "row">
-        <div class = "four wide column">
-            <form action="" class = "ui form">
-                <div class = "field">
-                    <input type="text" placeholder="Location" ng-pattern="loc.location">
-                </div>
-                <div class = "field">
-                    <input type="text" placeholder="Room Number" ng-pattern="loc.room">
-                </div>
-                <div class = "field">
-                    <input type="text" placeholder="Capacity" ng-pattern="loc.num">
-                </div>
-                <button class = "ui button" ng-click="Search()">Submit</button>
-            </form>
+        <div class="ui form">
+          <div class="three fields">
+            <div class="field">
+              <label>Location Name</label>
+              <input type="text" placeholder="Location" ng-model="locname">
+            </div>
+            <div class="field">
+              <label>Room #</label>
+              <input type="text" placeholder="Room #" ng-model="roomnum">
+            </div>
+            <div class="field">
+              <label>Min Capacity</label>
+              <input type="text" placeholder="Min capacity" ng-model="capacity">
+            </div>
+          </div>
         </div>
-        <div class = "ten wide column">
+        <div class = "sixteen wide column">
             <table class = "ui definition table">
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>Room number</th>
+                        <th></th>
                         <th>Location</th>
+                        <th>Room #</th>
                         <th>Floor Plan</th>
                         <th>Max Seats</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat = "room in rooms">
-                        <td >{{room.roomkey}}</td>
+                    <tr ng-repeat = "room in rooms | filterRoomSearch:locname:roomnum:capacity">
+                        <td>{{$index + 1}}</td>
+                        <td>{{room.locname}}</td>
                         <td>{{room.roomnum}}</td>
-                        <td>{{room.lockey}}</td>
-                        <td><a href="#">Floor Plan</a> </td>
+                        <td><a ng-href="{{room.floorplan}}">Floor Plan</a> </td>
                         <td>{{room.maxseats}}</td>
-                        <td><a ng-click = "Choose(room.roomkey, room.roomnum, room.lockey)">Reserve</a></td>
+                        <td><a ng-href="#" ng-click="reserveRoom(room.lockey,room.roomkey)">Reserve</a></td>
                     </tr>
-                    <!-- using angualar etc. later for more information -->
                 </tbody>
             </table>
         </div>

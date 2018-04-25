@@ -437,7 +437,7 @@ app.get('/select', function(req, res) {
     res.render('select.ejs')
 });
 
-app.get('/ts', function(req, res) {
+app.get('/timeSlot', function(req, res) {
     res.render('timeslot.ejs')
 });
 
