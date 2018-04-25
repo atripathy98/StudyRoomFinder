@@ -9,7 +9,7 @@
         <meta charset="utf-8">
     </head>
 
-    <body id = "main">
+    <body id = "main" ng-app="roomFinder">
         <!-- web nav bar -->
         <nav class="ui inverted menu">
             <h3 class="header item">RPI Room Finder</h3>
@@ -18,62 +18,90 @@
             </span>
         </nav>
 
-        <div class="ui grid sub-page">
+        <div class="ui grid sub-page" ng-controller="adminController">
             <div class = "sixteen wide column">
                 <h3>Managing Rooms</h3>
                 <table class = "ui definition table">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>Room</th>
+                            <th></th>
                             <th>Location</th>
+                            <th>Room #</th>
+                            <th>Max Capacity</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>401</td>
-                            <td>Library</td>
+                        <tr ng-repeat = "room in rooms track by $index">
+                            <td>{{$index + 1}}</td>
+                            <td>{{room.locname}}</td>
+                            <td>{{room.roomnum}}</td>
+                            <td>{{room.maxseats}}</td>
                             <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td>
                         </tr>
                         <!-- using angualar etc. later for more information -->
                     </tbody>
                 </table>
                 <a class = "ui mini button" href="/adloc">Add New Location</a>
-                <a class = "ui mini button" href = "/adrom">Add New Room</a>
+                <a class = "ui mini button" href="/adrom">Add New Room</a>
             </div>
             <div class = "sixteen wide column">
             <h3>Managing Reservations</h3>
             <table class = "ui definition table">
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>Room</th>
-                        <th>Users</th>
-                        <th>Start</th>
+                        <th></th>
+                        <th>User</th>
+                        <th>Location</th>
+                        <th>Room #</th>
+                        <th>Scheduled Date</th>
                         <th>Duration</th>
                         <th>Status</th>
-
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>401</td>
-                        <td>ghaie3</td>
-                        <td>2pm, Feb 25th, 2018</td>
-                        <td>2 hour </td>
-                        <td>Not completed</td>
-                        <td><a href="#">Change</a>&nbsp;&nbsp;&nbsp;<a href="#">Cancel</a></td>
+                    <tr ng-repeat = "reservation in freservs track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td>{{reservation.user | lowercase}}</td>
+                        <td>{{reservation.name}}</td>
+                        <td>{{reservation.roomnum}}</td>
+                        <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
+                        <td>{{reservation.duration}} hrs</td>
+                        <td>{{reservation.status | modifyStatus}}</td>
+                        <td><a ng-href="/cancel?key={{reservation.key}}">Cancel</a></td>
                     </tr>
-                    <!-- using angualar etc. later for more information -->
                 </tbody>
             </table>
             <a class = "ui mini button" href = "/adres">Add New Reservations</a>
             </div>
-
+            <h3>Reservations History</h3>
+            <table class = "ui definition table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>User</th>
+                        <th>Location</th>
+                        <th>Room #</th>
+                        <th>Scheduled Date</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat = "reservation in oreservs track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td>{{reservation.user | lowercase}}</td>
+                        <td>{{reservation.name}}</td>
+                        <td>{{reservation.roomnum}}</td>
+                        <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
+                        <td>{{reservation.duration}} hrs</td>
+                        <td>{{reservation.status | modifyStatus}}</td>
+                        <td><a ng-href="/cancel?key={{reservation.key}}">Cancel</a></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <!-- jquery -->
         <script src="/public/js/jquery.min.js"></script>

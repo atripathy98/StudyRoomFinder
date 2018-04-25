@@ -115,7 +115,7 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
             myFactory.setRoomList(res.data.data);
             $location.path("/select");
         });
-    }
+    };
     $scope.loadResev();
 })
 
@@ -123,14 +123,41 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
 app.controller("selectController", function($scope, $http, $location, myFactory) {
     //$scope.rooms = myFactory.getRoomList();
     $scope.rooms = myFactory.getRoomList();
-    $scope.reserveRoom = function(lockey, roomkey) {
+    $scope.reserveRoom = function(lockey, roomkey){
         var chosenRoom = [lockey,roomkey];
         myFactory.setRoom(chosenRoom);
         // request the reservation data of that rooms
         // TODO!
         // CAUSING SOME TRANSITION OCCUR
         $location.path("/timeSlot");
-    }
+    };
+});
+
+// select page allow user to select rooms
+app.controller("adminController", function($scope, $http, $location, myFactory) {
+    $scope.rooms = [];
+    $scope.getAllReservations = function(){
+        $http({
+            method: 'GET',
+            url:'/getAllReservations'
+        }).then(function(res) {
+            // TODO res data needs to return
+            $scope.oreservs = res.data.oreservations;
+            $scope.freservs = res.data.freservations;
+        });
+    };
+    $scope.getAllRooms = function() {
+        // move to the reserve page
+        $http({
+            method:'GET',
+            url:'/getAllRooms'
+        }).then(function(res) {
+            // store the list
+            $scope.rooms = res.data.data;
+        });
+    };
+    $scope.getAllReservations();
+    $scope.getAllRooms();
 });
 
 // timeslot choosing

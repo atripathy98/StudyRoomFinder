@@ -374,11 +374,61 @@ app.get('/cancelReservation',validateAccess,function(req,res){
 });
 
 /* ADMIN PRIVILEGE API CALLS */
+/* NAME: /getAllReservations
+ * DESCRIPTION: Returns all reservations
+ */
+app.get('/getAllReservations',validateAccess,function(req,res){
+	if(!req.admin){
+		return res.status(401).json({success:false,message:"User needs admin privileges."});
+	}else{
+		var response = {};
+		response["oreservations"] = [];
+		response["freservations"] = [];
+		var currentdate = new Date();
+		reservationref.once("value", function(snapshot){
+			locationsref.once("value", function(lsnap){
+				var loc_table = lsnap.val();
+				snapshot.forEach(function(data){
+		 			var reservation = {};
+			 		var val = data.val();
+			 		reservation["user"] = req.username;
+			 		reservation["key"] = data.key;
+			 		reservation["name"] = loc_table[val["lockey"]]["name"];
+			 		reservation["roomnum"] = loc_table[val["lockey"]]["rooms"][val["roomkey"]]["roomnum"];
+			 		reservation["duration"] = val["duration"];
+			 		reservation["date"] = val["datetime"]["date"];
+			 		reservation["starttime"] = val["datetime"]["time"];
+			 		reservation["status"] = val["status"];
+			 		var requesteddate = new Date(reservation["date"]);
+			 		requesteddate.setHours(reservation["starttime"]);
+			 		if((currentdate - requesteddate) > 0){
+			 			if(reservation["status"] == 1){
+			 				reservation["status"] = 2;
+			 				var dbparams = {};
+							var dbendpoint = reservation["key"] + "/status";
+							dbparams[dbendpoint] = 2;
+							reservationref.update(dbparams);
+			 			}
+			 			response["oreservations"].push(reservation);
+			 		}else{
+			 			response["freservations"].push(reservation);
+			 		}
+					
+				});
+				response["success"] = true;
+				return res.status(200).json(response);
+			});
+		});
+	}
+});
+
 /* NAME: /addLocation
  * DESCRIPTION: Add a new location
  */
 app.get('/addLocation',validateAccess,function(req,res){
-	if( !(req.query && req.query.name && req.query.floorplan) ){
+	if(!req.admin){
+		return res.status(401).json({success:false,message:"User needs admin privileges."});
+	}else if( !(req.query && req.query.name && req.query.floorplan) ){
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		// Push to Firebase
@@ -397,7 +447,9 @@ app.get('/addLocation',validateAccess,function(req,res){
  * DESCRIPTION: Add a new room to an existing location
  */
 app.get('/addRoom',validateAccess,function(req,res){
-	if( !(req.query && req.query.locationkey && req.query.floorplan && req.query.maxseats && req.query.roomnum) ){
+	if(!req.admin){
+		return res.status(401).json({success:false,message:"User needs admin privileges."});
+	}else if( !(req.query && req.query.locationkey && req.query.floorplan && req.query.maxseats && req.query.roomnum) ){
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		var locationkey = req.query.locationkey;
