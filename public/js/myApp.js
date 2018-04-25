@@ -172,6 +172,7 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
             url:'/addLocation',
             params: $scope.form2Data
         }).then(function(res) {
+            alert("Location added successfully!");
             $scope.form2Data = {};
         });
     };
@@ -181,6 +182,7 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
             url:'/addRoom',
             params: $scope.form3Data
         }).then(function(res) {
+            alert("Room added successfully!");
             $scope.form3Data = {};
         });
     }
@@ -280,7 +282,13 @@ app.controller("confirmController", function($scope, $http, $location, myFactory
             url: '/reserve',
             params: data
         }).then(function(res){
-            $location.path("/success");
+            if(res.data.success == true) {
+                $location.path("/success");
+            } else {
+                alert(res.data.message);
+                $location.path("/timeSlot");
+            }
+
         });
     };
 
