@@ -167,6 +167,27 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
             $scope.locations = res.data.data;
         });
     };
+    $scope.addLocation = function(){
+        $http({
+            method:'GET',
+            url:'/addLocation',
+            params: $scope.form2Data
+        }).then(function(res) {
+            $scope.form2Data = {};
+        });
+    };
+    $scope.addRoom = function(){
+        $http({
+            method:'GET',
+            url:'/addRoom',
+            params: $scope.form3Data
+        }).then(function(res) {
+            $scope.form3Data = {};
+        });
+    }
+    $scope.getArray = function(n) {
+        return new Array(n);
+    };
     $scope.getAllReservations();
     $scope.getAllRooms();
     $scope.getAllLocations();
@@ -232,7 +253,7 @@ app.controller("confirmController", function($scope, $http, $location, myFactory
         $http({
             method: 'GET',
             url: '/reserve',
-            query: {'locationkey': $scope.room[2], 'roomkey': $scope.room[0], 'timeslot':$scope.time[1], 'date': $scope.time[0]}
+            params: {'locationkey': $scope.room[2], 'roomkey': $scope.room[0], 'timeslot':$scope.time[1], 'date': $scope.time[0]}
         }).then(function(res){
             $location.path("/success");
         })

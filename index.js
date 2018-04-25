@@ -172,7 +172,6 @@ app.get('/logout', cas.logout);
  */
 app.get('/reserve',validateAccess,function(req,res){
 	if( !(req.query && req.query.locationkey && req.query.roomkey && req.query.timeslot && req.query.date && req.query.duration) ){
-		console.log(req.query);
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		var response = {};

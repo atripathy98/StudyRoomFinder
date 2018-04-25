@@ -8,7 +8,7 @@
         <meta charset="utf-8">
     </head>
 
-    <body ng-app = "roomFinder" ng-controller="displayController">
+    <body ng-app = "roomFinder" ng-controller="adminController">
 
         <nav class="ui inverted menu">
             <h3 class="header item">RPI Room Finder</h3>
@@ -22,21 +22,40 @@
 
         <div class="ui grid sub-page">
             <div class = "row">
-
                 <form ng-submit="addRoom()" class = "ui form" style="margin: auto;">
-                  <h1>Room Addition</h1>
+                  <h4 class="ui dividing header">Room Addition</h4>
                   <div class="field">
-                    <label for="track">Location Key</label>
-                    <input type="text" class="form-control" id="track" ng-model="form3Data.locationkey" placeholder="Enter location key">
+                    <label>Location Name</label>
+                    <select ng-model="form3Data.locationkey">
+                        <option value="" selected>Select location</option>
+                        <option ng-repeat="location in locations" value="{{location.lockey}}">{{location.locname}}</option>
+                    </select>
                   </div>
                   <div class="field">
-                    <label for="track">Room Number</label>
-                    <input type="text" class="form-control" id="track" ng-model="form3Data.roomnum" placeholder="Enter room num">
+                    <label>Room Number</label>
+                    <input type="text" ng-model="form3Data.roomnum" placeholder="Enter room num">
                   </div>
                   <div class="field">
-                    <label for="tweet">Max Seats</label>
-                    <input type="text" class="form-control" id="tweet" ng-model="form3Data.maxseats" placeholder="Enter max seats">
+                    <label>Hours Open</label>
+                    <div class="two fields">
+                      <div class="field">
+                        <select ng-model="form3Data.openhour">
+                          <option value="" selected>Enter open hour</option>
+                          <option ng-repeat="val in getArray(24) track by $index" value="{{$index}}">{{$index | modifyTime}}</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <select ng-model="form3Data.closehour">
+                          <option value="" selected>Enter close hour</option>
+                          <option ng-repeat="val in getArray(24) track by $index" value="{{$index}}">{{$index | modifyTime}}</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
+                  <div class="field">
+                    <label>Max Seats</label>
+                    <input type="text" ng-model="form3Data.maxseats" placeholder="Enter max seats">
+                  </div>                  
                   <button type="submit" class="ui button">Submit</button>
                 </form>
             </div>

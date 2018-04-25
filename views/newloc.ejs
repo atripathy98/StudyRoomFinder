@@ -8,7 +8,7 @@
         <meta charset="utf-8">
     </head>
 
-    <body ng-app = "roomFinder" ng-controller="displayController">
+    <body ng-app = "roomFinder" ng-controller="adminController">
 
         <nav class="ui inverted menu">
             <h3 class="header item">RPI Room Finder</h3>
@@ -22,16 +22,15 @@
 
         <div class="ui grid sub-page">
             <div class = "row">
-
-                <form ng-submit="addLocation()" class = "ui form" style = "margin: auto;">
+                <form ng-submit="addLocation()" class="ui form" style = "margin: auto;">
                   <h1>Location Addition</h1>
                   <div class="field">
-                    <label for="track">Location Name</label>
-                    <input type="text" class="form-control" id="track" ng-model="form2Data.name" placeholder="Enter location name">
+                    <label>Location Name</label>
+                    <input type="text" ng-model="form2Data.name" placeholder="Enter location name">
                   </div>
                   <div class="field">
-                    <label for="tweet">Floor Plan</label>
-                    <input type="text" class="form-control" id="tweet" ng-model="form2Data.floorplan" placeholder="Enter floorplan">
+                    <label>Floor Plan</label>
+                    <input type="text" ng-model="form2Data.floorplan" placeholder="Enter floorplan">
                   </div>
                   <button type="submit" class="ui button">Submit</button>
                 </form>
