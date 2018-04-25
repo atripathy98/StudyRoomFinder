@@ -272,6 +272,26 @@ app.get('/reserve',validateAccess,function(req,res){
 	}
 });
 
+/* NAME: /getAllLocations
+ * DESCRIPTION: Returns all rooms
+ */
+app.get('/getAllLocations',validateAccess,function(req,res){
+	locationsref.once("value", function(snapshot){
+		var locations = [];
+		snapshot.forEach(function(data) {
+			var lockey = data.key;
+	 		var val = data.val();
+	 		var locinfo = {};
+	 		locinfo["locname"] = val["name"];
+	 		locinfo["floorplan"] = val["floorplan"];
+	 		locinfo["lockey"] = lockey;
+	 		locinfo["numrooms"] = val["numrooms"];
+	 		locations.push(locinfo);
+		});
+		return res.status(200).json({success:true,data:locations});
+	});
+});
+
 /* NAME: /getAllRooms
  * DESCRIPTION: Returns all rooms
  */
@@ -496,7 +516,7 @@ app.get('/addLocation',validateAccess,function(req,res){
 app.get('/addRoom',validateAccess,function(req,res){
 	if(!req.admin){
 		return res.status(401).json({success:false,message:"User needs admin privileges."});
-	}else if( !(req.query && req.query.locationkey && req.query.floorplan && req.query.maxseats && req.query.roomnum) ){
+	}else if( !(req.query && req.query.locationkey && req.query.maxseats && req.query.roomnum && req.query.openhour && req.query.closehour) ){
 		return res.status(400).json({success:false,message:"Server was unable to handle the request format."});
 	}else{
 		var locationkey = req.query.locationkey;
@@ -505,10 +525,10 @@ app.get('/addRoom',validateAccess,function(req,res){
 		locationChild.once("value", function(snapshot){
 			if(snapshot.numChildren() === 0){
 				// Failure response
-				return res.status(404).json({success:false,message:"Specified location not found."});
+				return res.status(404).json({success:false,message:"Specified location was not found."});
 			}else{
-				var locinfo_table = data.val();
-				// Update Firebase
+				var locinfo_table = snapshot.val();
+				// Update number of rooms
 				locationChild.update({
 					"numrooms": locinfo_table["numrooms"] + 1
 				});
@@ -518,10 +538,10 @@ app.get('/addRoom',validateAccess,function(req,res){
 				roomkeyref.set({
 					"maxseats": parseInt(req.query.maxseats),
 					"roomnum": req.query.roomnum,
-					"open": req.query.openhour,
-					"close": req.query.closehour
+					"open": parseInt(req.query.openhour),
+					"close": parseInt(req.query.closehour)
 				});
-				return res.status(200).json({success:true,data:roomkeyref});
+				return res.status(200).json({success:true,data: roomkeyref.key});
 			}
 		});
 	}

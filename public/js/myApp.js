@@ -136,6 +136,7 @@ app.controller("selectController", function($scope, $http, $location, myFactory)
 // select page allow user to select rooms
 app.controller("adminController", function($scope, $http, $location, myFactory) {
     $scope.rooms = [];
+    $scope.locations = [];
     $scope.getAllReservations = function(){
         $http({
             method: 'GET',
@@ -156,8 +157,19 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
             $scope.rooms = res.data.data;
         });
     };
+    $scope.getAllLocations = function() {
+        // move to the reserve page
+        $http({
+            method:'GET',
+            url:'/getAllLocations'
+        }).then(function(res) {
+            // store the list
+            $scope.locations = res.data.data;
+        });
+    };
     $scope.getAllReservations();
     $scope.getAllRooms();
+    $scope.getAllLocations();
 });
 
 // timeslot choosing
