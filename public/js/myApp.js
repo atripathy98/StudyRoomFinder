@@ -257,6 +257,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
             for (var j = 0; j < res.data.available.length; ++j) {
                 var id = res.data.available[j].time.toString()+'-0';
                 angular.element('#'+id).addClass("avail");
+                angular.element('#'+id).addClass("selectable");
                 console.log(id)
             }
             var room = myFactory.getRoom();
@@ -275,6 +276,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
                 for (var j = 0; j < res.data.available.length; ++j) {
                     var id = res.data.available[j].time.toString()+'-1';
                     angular.element('#'+id).addClass("avail");
+                    angular.element('#'+id).addClass("selectable");
                     console.log(id)
                 }
                 var room = myFactory.getRoom();
@@ -293,6 +295,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
                     for (var j = 0; j < res.data.available.length; ++j) {
                         var id = res.data.available[j].time.toString()+'-2';
                         angular.element('#'+id).addClass("avail");
+                        angular.element('#'+id).addClass("selectable");
                         console.log(id)
                     }
                     var room = myFactory.getRoom();
@@ -310,6 +313,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
                         for (var j = 0; j < res.data.available.length; ++j) {
                             var id = res.data.available[j].time.toString()+'-3';
                             angular.element('#'+id).addClass("avail");
+                            angular.element('#'+id).addClass("selectable");
                             console.log(id)
                         }
                         var room = myFactory.getRoom();
@@ -327,6 +331,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
                             for (var j = 0; j < res.data.available.length; ++j) {
                                 var id = res.data.available[j].time.toString()+'-4';
                                 angular.element('#'+id).addClass("avail");
+                                angular.element('#'+id).addClass("selectable");
                                 console.log(id)
                             }
                             var room = myFactory.getRoom();
@@ -344,6 +349,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
                                 for (var j = 0; j < res.data.available.length; ++j) {
                                     var id = res.data.available[j].time.toString()+'-5';
                                     angular.element('#'+id).addClass("avail");
+                                    angular.element('#'+id).addClass("selectable");
                                     console.log(id)
                                 }
                                 var room = myFactory.getRoom();
@@ -361,6 +367,7 @@ app.controller("slotController", function($scope, $http, $location, myFactory, $
                                     for (var j = 0; j < res.data.available.length; ++j) {
                                         var id = res.data.available[j].time.toString()+'-6';
                                         angular.element('#'+id).addClass("avail");
+                                        angular.element('#'+id).addClass("selectable");
                                         console.log(id)
                                     }
                                 });
