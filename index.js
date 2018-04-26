@@ -94,6 +94,18 @@ function requireActiveSession(req,res,next){
 	}
 }
 
+function compare(a,b) {
+  var d1 = new Date(a["date"]);
+  d1.setHours(a["starttime"]);
+  var d2 = new Date(b["date"]);
+  d2.setHours(b["starttime"]);
+  if (d1 < d2)
+    return 1;
+  if(d1 > d2)
+    return -1;
+  return 0;
+}
+
 /* WEB APPLICATION ROUTES */
 // Landing Route
 app.get('/',function(req,res){
@@ -402,11 +414,15 @@ app.get('/getReservations',validateAccess,function(req,res){
 						reservationref.update(dbparams);
 		 			}
 		 			response["oreservations"].push(reservation);
+		 		}else if(reservation["status"] !== 1){
+		 			response["oreservations"].push(reservation);
 		 		}else{
 		 			response["freservations"].push(reservation);
 		 		}
 				
 			});
+			response["oreservations"].sort(compare);
+			response["freservations"].sort(compare);
 			response["success"] = true;
 			return res.status(200).json(response);
 		});
@@ -476,11 +492,15 @@ app.get('/getAllReservations',validateAccess,function(req,res){
 							reservationref.update(dbparams);
 			 			}
 			 			response["oreservations"].push(reservation);
-			 		}else{
+			 		}else if(reservation["status"] !== 1){
+		 				response["oreservations"].push(reservation);
+		 			}else{
 			 			response["freservations"].push(reservation);
 			 		}
 					
 				});
+				response["oreservations"].sort(compare);
+				response["freservations"].sort(compare);
 				response["success"] = true;
 				return res.status(200).json(response);
 			});

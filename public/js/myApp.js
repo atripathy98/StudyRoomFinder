@@ -116,6 +116,16 @@ app.controller("userController", function($scope, $http, $location, myFactory) {
             $location.path("/select");
         });
     };
+    $scope.cancel = function(resKey){
+        $http({
+            method:'GET',
+            url:'/cancelReservation',
+            params: {key: resKey}
+        }).then(function(res) {
+            $scope.form3Data = {};
+            $scope.loadResev();
+        });
+    }
     $scope.loadResev();
 })
 

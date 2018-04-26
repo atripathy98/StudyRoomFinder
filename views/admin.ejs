@@ -21,10 +21,9 @@
         <div class="ui grid sub-page" ng-controller="adminController">
             <div class = "sixteen wide column">
                 <h3 class="ui center aligned header">Managing Locations</h3>
-                <table class = "ui definition table">
+                <table class="ui celled padded table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Location</th>
                             <th>Floor Plan</th>
                             <th># of Rooms</th>
@@ -33,23 +32,30 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat = "location in locations track by $index">
-                            <td>{{$index + 1}}</td>
                             <td>{{location.locname}}</td>
-                            <td>{{location.floorplan}}</td>
+                            <td><a ng-href="{{location.floorplan}}" target="_blank">Info</a></td>
                             <td>{{location.numrooms}}</td>
                             <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td>
                         </tr>
                         <!-- using angualar etc. later for more information -->
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="4">
+                          <div class="center aligned">
+                            <a class = "ui button" href="/adloc">Add New Location</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </tfoot>
                 </table>
-                <a class = "ui mini button" href="/adloc">Add New Location</a>
+                
             </div>
             <div class = "sixteen wide column">
                 <h3 class="ui center aligned header">Managing Rooms</h3>
-                <table class = "ui definition table">
+                <table class = "ui celled padded table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Location</th>
                             <th>Room #</th>
                             <th>Max Capacity</th>
@@ -58,7 +64,6 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat = "room in rooms track by $index">
-                            <td>{{$index + 1}}</td>
                             <td>{{room.locname}}</td>
                             <td>{{room.roomnum}}</td>
                             <td>{{room.maxseats}}</td>
@@ -66,15 +71,22 @@
                         </tr>
                         <!-- using angualar etc. later for more information -->
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="4">
+                          <div class="center aligned">
+                            <a class = "ui button" href="/adrom">Add New Room</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </tfoot>
                 </table>
-                <a class = "ui mini button" href="/adrom">Add New Room</a>
             </div>
             <div class = "sixteen wide column">
                 <h3 class="ui center aligned header">Managing Reservations</h3>
-                <table class = "ui definition table">
+                <table class = "ui celled padded table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>User</th>
                             <th>Location</th>
                             <th>Room #</th>
@@ -86,7 +98,6 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat = "reservation in freservs track by $index">
-                            <td>{{$index + 1}}</td>
                             <td>{{reservation.user | lowercase}}</td>
                             <td>{{reservation.name}}</td>
                             <td>{{reservation.roomnum}}</td>
@@ -96,15 +107,23 @@
                             <td><a ng-href="#" ng-click="cancel(reservation.key)">Cancel</a></td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="7">
+                          <div class="center aligned">
+                            <a class = "ui button" href = "/adres">Add New Reservations</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </tfoot>
                 </table>
-                <a class = "ui mini button" href = "/adres">Add New Reservations</a>
+                
             </div>
             <div class = "sixteen wide column">
                 <h3 class="ui center aligned header">Reservations History</h3>
-                <table class = "ui definition table">
+                <table class = "ui celled padded table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>User</th>
                             <th>Location</th>
                             <th>Room #</th>
@@ -116,7 +135,6 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat = "reservation in oreservs track by $index">
-                            <td>{{$index + 1}}</td>
                             <td>{{reservation.user | lowercase}}</td>
                             <td>{{reservation.name}}</td>
                             <td>{{reservation.roomnum}}</td>

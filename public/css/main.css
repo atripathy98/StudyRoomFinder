@@ -21,6 +21,9 @@
 .ui.grid.sub-page {
     padding: 2% 5% 2% 5%;
 }
+.ui.grid table {
+    padding: 0;
+}
 
 
 #main::after {
