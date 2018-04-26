@@ -27,7 +27,7 @@
                             <th>Location</th>
                             <th>Floor Plan</th>
                             <th># of Rooms</th>
-                            <th>Actions</th>
+<!--                             <th>Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@
                             <td>{{location.locname}}</td>
                             <td><a ng-href="{{location.floorplan}}" target="_blank">Info</a></td>
                             <td>{{location.numrooms}}</td>
-                            <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td>
+<!--                             <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td> -->
                         </tr>
                         <!-- using angualar etc. later for more information -->
                     </tbody>
@@ -59,7 +59,7 @@
                             <th>Location</th>
                             <th>Room #</th>
                             <th>Max Capacity</th>
-                            <th>Actions</th>
+<!--                             <th>Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                             <td>{{room.locname}}</td>
                             <td>{{room.roomnum}}</td>
                             <td>{{room.maxseats}}</td>
-                            <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td>
+<!--                             <td><a href="#">Modify</a>&nbsp;&nbsp;&nbsp;<a href="#">Delete</a></td> -->
                         </tr>
                         <!-- using angualar etc. later for more information -->
                     </tbody>
@@ -80,6 +80,30 @@
                         </th>
                       </tr>
                     </tfoot>
+                </table>
+            </div>
+            <div class = "sixteen wide column">
+                <h3 class="ui center aligned header">Managing Users</h3>
+                <table class="ui celled padded table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Name</th>
+                            <th>Created At</th>
+                            <th>Admin</th>
+                            <th>API Key</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat = "user in users track by $index">
+                            <td>{{user.user | lowercase}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.createdat | convertEpoch}}</td>
+                            <td>{{user.admin | modifyAdmin}}</td>
+                            <td>{{user.key}}</td>
+                        </tr>
+                        <!-- using angualar etc. later for more information -->
+                    </tbody>
                 </table>
             </div>
             <div class = "sixteen wide column">
@@ -130,7 +154,6 @@
                             <th>Scheduled Date</th>
                             <th>Duration</th>
                             <th>Status</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -141,7 +164,6 @@
                             <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
                             <td>{{reservation.duration}} hrs</td>
                             <td>{{reservation.status | modifyStatus}}</td>
-                            <td><a ng-href="#" ng-click="cancel(reservation.key)">Cancel</a></td>
                         </tr>
                     </tbody>
                 </table>

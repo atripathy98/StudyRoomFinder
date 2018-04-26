@@ -166,6 +166,16 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
             $scope.rooms = res.data.data;
         });
     };
+    $scope.getUsers = function() {
+        // move to the reserve page
+        $http({
+            method:'GET',
+            url:'/getUsers'
+        }).then(function(res) {
+            // store the list
+            $scope.users = res.data.data;
+        });
+    };
     $scope.getAllLocations = function() {
         // move to the reserve page
         $http({
@@ -212,6 +222,7 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
     $scope.getAllReservations();
     $scope.getAllRooms();
     $scope.getAllLocations();
+    $scope.getUsers();
 });
 
 // timeslot choosing
@@ -536,5 +547,22 @@ app.filter('filterRoomSearch', function() {
         }
     });
     return ndata;
+  }
+});
+
+app.filter('modifyAdmin', function() {
+  return function(status) {
+    if(status){
+        return "Yes";
+    }else{
+        return "No";
+    }
+  }
+});
+
+app.filter('convertEpoch', function() {
+  return function(value) {
+    var date = new Date(value);
+    return date.toLocaleDateString("en-US");
   }
 });

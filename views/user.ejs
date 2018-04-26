@@ -40,7 +40,6 @@
         <th>Scheduled Date</th>
         <th>Duration</th>
         <th>Status</th>
-        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -50,7 +49,6 @@
         <td>{{reservation.date | modifyDate}} @{{reservation.starttime | modifyTime}}</td>
         <td>{{reservation.duration}} hrs</td>
         <td>{{reservation.status | modifyStatus}}</td>
-        <td><a href="#" ng-click="cancel(reservation.key)">Cancel</a></td>
       </tr>
     </tbody>
   </table>

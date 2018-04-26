@@ -284,7 +284,7 @@ app.get('/reserve',validateAccess,function(req,res){
 });
 
 /* NAME: /getAllLocations
- * DESCRIPTION: Returns all rooms
+ * DESCRIPTION: Returns all locations
  */
 app.get('/getAllLocations',validateAccess,function(req,res){
 	locationsref.once("value", function(snapshot){
@@ -508,6 +508,24 @@ app.get('/getAllReservations',validateAccess,function(req,res){
 	}
 });
 
+/* NAME: /getAllReservations
+ * DESCRIPTION: Returns all users (ADMIN ONLY)
+ */
+app.get('/getUsers',validateAccess,function(req,res){
+	if(!req.admin){
+		return res.status(401).json({success:false,message:"User needs admin privileges."});
+	}else{
+		var response = {};
+		response["data"] = [];
+		usersref.once("value", function(snapshot){
+			snapshot.forEach(function(obj){
+				response["data"].push(obj.val());
+			});
+			response["success"] = true;
+			return res.status(200).json(response);
+		});
+	}
+});
 /* NAME: /addLocation
  * DESCRIPTION: Add a new location
  */
