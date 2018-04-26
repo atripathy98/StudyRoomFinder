@@ -205,46 +205,188 @@ app.controller("adminController", function($scope, $http, $location, myFactory) 
 });
 
 // timeslot choosing
-app.controller("slotController", function($scope, $http, $location, myFactory){
+app.controller("slotController", function($scope, $http, $location, myFactory, $filter){
+
     var currentdate = new Date();
     $scope.date = currentdate.toLocaleDateString("en-US");
 
     var tb = new Date();
     $scope.datesx = [tb.setDate(tb.getDate()),tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1), tb.setDate(tb.getDate()+1)];
-    console.log($scope.datesx);
+    // console.log($scope.datesx);
 
     $scope.currSelect = null;
 
+    $scope.retrieveRoomInfo = function() {
+        var room = myFactory.getRoom();
+        var data = {}
+        data.locationkey = room.lockey;
+        data.roomkey = room.roomkey;
+
+        // being lazy sorry....
+        data.date = ""
+        data.date = $filter('date')($scope.datesx[0], "MM/dd/yyyy");
+
+        $http({
+            method: 'GET',
+            url: '/getRoomSlotsByDate',
+            params: data
+        }).then(function(res){
+            console.log(res);
+            var avail = []
+            for (var j = 0; j < res.data.available.length; ++j) {
+                var id = res.data.available[j].time.toString()+'-0';
+                angular.element('#'+id).addClass("avail");
+                console.log(id)
+            }
+            var room = myFactory.getRoom();
+            var data = {}
+            data.locationkey = room.lockey;
+            data.roomkey = room.roomkey;
+            data.date = $filter('date')($scope.datesx[1], "MM/dd/yyyy");
+
+            $http({
+                method: 'GET',
+                url: '/getRoomSlotsByDate',
+                params: data
+            }).then(function(res){
+                console.log(res);
+                var avail = []
+                for (var j = 0; j < res.data.available.length; ++j) {
+                    var id = res.data.available[j].time.toString()+'-1';
+                    angular.element('#'+id).addClass("avail");
+                    console.log(id)
+                }
+                var room = myFactory.getRoom();
+                var data = {}
+                data.locationkey = room.lockey;
+                data.roomkey = room.roomkey;
+                data.date = $filter('date')($scope.datesx[2], "MM/dd/yyyy");
+
+                $http({
+                    method: 'GET',
+                    url: '/getRoomSlotsByDate',
+                    params: data
+                }).then(function(res){
+                    console.log(res);
+                    var avail = []
+                    for (var j = 0; j < res.data.available.length; ++j) {
+                        var id = res.data.available[j].time.toString()+'-2';
+                        angular.element('#'+id).addClass("avail");
+                        console.log(id)
+                    }
+                    var room = myFactory.getRoom();
+                    var data = {}
+                    data.locationkey = room.lockey;
+                    data.roomkey = room.roomkey;
+                    data.date = $filter('date')($scope.datesx[3], "MM/dd/yyyy");
+                    $http({
+                        method: 'GET',
+                        url: '/getRoomSlotsByDate',
+                        params: data
+                    }).then(function(res){
+                        console.log(res);
+                        var avail = []
+                        for (var j = 0; j < res.data.available.length; ++j) {
+                            var id = res.data.available[j].time.toString()+'-3';
+                            angular.element('#'+id).addClass("avail");
+                            console.log(id)
+                        }
+                        var room = myFactory.getRoom();
+                        var data = {}
+                        data.locationkey = room.lockey;
+                        data.roomkey = room.roomkey;
+                        data.date = $filter('date')($scope.datesx[4], "MM/dd/yyyy");
+                        $http({
+                            method: 'GET',
+                            url: '/getRoomSlotsByDate',
+                            params: data
+                        }).then(function(res){
+                            console.log(res);
+                            var avail = []
+                            for (var j = 0; j < res.data.available.length; ++j) {
+                                var id = res.data.available[j].time.toString()+'-4';
+                                angular.element('#'+id).addClass("avail");
+                                console.log(id)
+                            }
+                            var room = myFactory.getRoom();
+                            var data = {}
+                            data.locationkey = room.lockey;
+                            data.roomkey = room.roomkey;
+                            data.date = $filter('date')($scope.datesx[5], "MM/dd/yyyy");
+                            $http({
+                                method: 'GET',
+                                url: '/getRoomSlotsByDate',
+                                params: data
+                            }).then(function(res){
+                                console.log(res);
+                                var avail = []
+                                for (var j = 0; j < res.data.available.length; ++j) {
+                                    var id = res.data.available[j].time.toString()+'-5';
+                                    angular.element('#'+id).addClass("avail");
+                                    console.log(id)
+                                }
+                                var room = myFactory.getRoom();
+                                var data = {}
+                                data.locationkey = room.lockey;
+                                data.roomkey = room.roomkey;
+                                data.date = $filter('date')($scope.datesx[6], "MM/dd/yyyy");
+                                $http({
+                                    method: 'GET',
+                                    url: '/getRoomSlotsByDate',
+                                    params: data
+                                }).then(function(res){
+                                    console.log(res);
+                                    var avail = []
+                                    for (var j = 0; j < res.data.available.length; ++j) {
+                                        var id = res.data.available[j].time.toString()+'-6';
+                                        angular.element('#'+id).addClass("avail");
+                                        console.log(id)
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    $scope.retrieveRoomInfo();
+
     $scope.chooseTime = function($event) {
-        console.log($scope.datesx);
+        // console.log($scope.datesx);
         angular.element('#'+$scope.currSelect).removeClass("active");
-        var timeselect = $event.currentTarget.attributes[2].value
-        if ($scope.currSelect != timeselect) {
-            $scope.currSelect = timeselect;
-            var id = '#'+timeselect;
-            // console.log(id);
-            angular.element('#'+timeselect).addClass("active");
-        } else {
-            $scope.currSelect = null;
+        var timeselect = $event.currentTarget.attributes[2].value;
+        if (angular.element('#'+timeselect).hasClass('avail')) {
+            if ($scope.currSelect != timeselect) {
+                $scope.currSelect = timeselect;
+                var id = '#'+timeselect;
+                // console.log(id);
+                angular.element('#'+timeselect).addClass("active");
+            } else {
+                if ($scope.currSelect != null)
+                    $scope.currSelect = null;
+            }
+            // slot num, date num
+            var ndate = parseInt($scope.currSelect.split('-')[1]);
+            var nslot = parseInt($scope.currSelect.split('-')[0]);
+            var day = $scope.datesx[ndate];
+            var params = {};
+            params.date = day;
+            params.slot = nslot;
+            // params.day = day;
+            if ($scope.duration <= 4)
+                params.duration = parseInt($scope.duration);
+            else
+                params.duration = 2;
+            // var chosenTime = [ndate,nslot,day,$scope.duration]
+
+            myFactory.setDate(params);
+
+            console.log(myFactory.getDate());
+            // console.log(chosenTime);
+
         }
-        // slot num, date num
-        var ndate = parseInt($scope.currSelect.split('-')[1]);
-        var nslot = parseInt($scope.currSelect.split('-')[0]);
-        var day = $scope.datesx[ndate];
-        var params = {};
-        params.date = day;
-        params.slot = nslot;
-        // params.day = day;
-        if ($scope.duration <= 4)
-            params.duration = parseInt($scope.duration);
-        else
-            params.duration = 2;
-        // var chosenTime = [ndate,nslot,day,$scope.duration]
-
-        myFactory.setDate(params);
-
-        console.log(myFactory.getDate());
-        // console.log(chosenTime);
 
     }
 

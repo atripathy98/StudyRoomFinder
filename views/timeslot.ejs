@@ -58,23 +58,26 @@
     </div>
 
     <div class = "centered row">
-        <table class="ui celled table" timetable = "timetable">
-            <legend class = "ui header">Choose Start Time</legend>
-          <thead>
-            <tr>
-                  <th></th>
-                  <!-- <th ng-repeat = "n in datesx">{{n | date}}</th> -->
-                  <th ng-repeat="n in datesx">{{ n | date: 'MM/dd/yyyy'}}</th>
-            </tr>
-         </thead>
-            <tr ng-repeat="n in [] | range:24">
-                <th>{{n}}:00</th>
-                <td ng-repeat="m in [] | range:7" class = "selectable slots" id = "{{n}}-{{m}}" name = "{{n}}-{{m}}" ng-click="chooseTime($event)"></td>
-            </tr>
-          <tbody>
+        <div class = "fourteen wide column">
+            <table class="ui celled centered table" timetable = "timetable">
+                <legend class = "ui header">Choose Start Time</legend>
+              <thead>
+                <tr>
+                      <th></th>
+                      <!-- <th ng-repeat = "n in datesx">{{n | date}}</th> -->
+                      <th ng-repeat="n in datesx">{{ n | date: 'MM/dd/yyyy'}}</th>
+                </tr>
+             </thead>
+                <tr ng-repeat="n in [] | range:24">
+                    <th>{{n}}:00</th>
+                    <td ng-repeat="m in [] | range:7" class = "slots" id = "{{n}}-{{m}}" name = "{{n}}-{{m}}" ng-click="chooseTime($event)"></td>
+                </tr>
+              <tbody>
 
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+        </div>
+
     </div>
 
 
